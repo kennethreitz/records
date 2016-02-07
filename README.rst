@@ -1,7 +1,7 @@
-Relational: Just Write SQL
-==========================
+Records: Just Write SQL
+=======================
 
-Relational is a very simple, but powerful, library for making raw SQL queries
+Records is a very simple, but powerful, library for making raw SQL queries
 to Postgres Databases. 
 
 This common task can be surprisingly difficult with the standard tools available. 
@@ -12,9 +12,9 @@ We know how to write SQL, so let's send some to our database:
 
 .. code:: python
 
-    import relational
+    import records
     
-    db = relational.Database('postgres://...')
+    db = records.Database('postgres://...')
     rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
 Rows are represented as standard Python dictionaries (``{'column-name': 'value'}``). Grab one row at a time:
@@ -48,13 +48,13 @@ Features
 - Queries can be passed as strings or filenames, parameters supported.
 - Query results are iterators of standard Python dictionaries (``{'column-name': 'value'}``)
 
-Relational is powered by `psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
+Records is powered by `psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
 and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
 
 Data Export Functionality
 -------------------------
 
-Relational also features full Tablib integration, and allows you to export
+Records also features full Tablib integration, and allows you to export
 your results to CSV, XLS, JSON, or YAML with a single line of code. Excellent
 for sharing data with friends, or generating reports.
 

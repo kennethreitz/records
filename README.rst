@@ -2,10 +2,13 @@ Relational: Just Write SQL
 ==========================
 
 Relational is a very simple, but powerful, library for making raw SQL queries
-to Postgres Databases. This common task can be surprisingly difficult with the
-standard tools available. This library strives to make this simple workflow
-as easy and seamless as possible, while providing an elegant interface to work
-with your results.
+to Postgres Databases. 
+
+This common task can be surprisingly difficult with the standard tools available. 
+This library strives to make this simple workflow as easy and seamless as possible, 
+while providing an elegant interface to work with your results.
+
+No need to replicate your schemas in code or count column indexes.
 
 .. code:: python
 

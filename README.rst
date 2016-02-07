@@ -1,4 +1,4 @@
-Records: Just Write SQL
+Records: SQL for Humans
 =======================
 
 Records is a very simple, but powerful, library for making raw SQL queries

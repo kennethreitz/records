@@ -51,7 +51,7 @@ and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
 Data Export Functionality
 -------------------------
 
-Relational also feature full Tablib integration, which allows you to export
+Relational also features full Tablib integration, and allows you to export
 your results to CSV, XLS, JSON, or YAML with a single line of code. Excellent
 for sharing data with friends, or generating reports.
 

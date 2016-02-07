@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 from psycopg2.extras import RealDictConnection, register_hstore
+from psycopg2 import ProgrammingError
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -65,24 +66,38 @@ class SessionPropertyMixin(object):
             session.close()
 
 
+
 class Warehouse(object):
     def __init__(self, conn_str):
+        self._conn_str = conn_str
         self.db = RealDictConnection(conn_str)
-        register_hstore(self.db)
+
+        # Enable hstore if it's available.
+        self._enable_hstore()
+
+
+    def _enable_hstore(self):
+
+        try:
+            register_hstore(self.db)
+        except ProgrammingError:
+            pass
 
     def query(self, q, params=None, fetchall=False):
+        # Execute the given query.
         c = self.db.cursor()
         c.execute(q, params)
 
+        # Row-by-row result generator.
         gen = (r for r in c)
 
-        if fetchall:
-            return list(gen)
-        else:
-            return gen
+        # If fetchall is True, return a list.
+        return list(gen) if fetchall else gen
 
     def query_file(self, path, params=None, fetchall=False):
+        # Read the given .sql file into memory.
         with open(path) as f:
             query = f.read()
 
+        # Defer processing to self.query method.
         return self.query(query, params=params, fetchall=fetchall)

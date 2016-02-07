@@ -1,24 +1,18 @@
+# -*- coding: utf-8 -*-
+
 import os
 from datetime import datetime
-
 
 import tablib
 import psycopg2
 from psycopg2.extras import register_hstore, RealDictCursor
-from datetime import datetime
+
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'"
 PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
 
-
-def _reduce_datetimes(row):
-    """Receives a row, converts datetimes to strings."""
-    for i in range(len(row)):
-        if isinstance(row[i], datetime):
-            row[i] = '{}'.format(row[i])
-    return row
 
 class ResultSet(object):
     """A set of results from a query."""
@@ -90,7 +84,6 @@ class Database(object):
         # Enable hstore if it's available.
         self._enable_hstore()
 
-
     def _enable_hstore(self):
         try:
             register_hstore(self.db)
@@ -135,3 +128,10 @@ class Database(object):
 
         # Defer processing to self.query method.
         return self.query(query=query, params=params, fetchall=fetchall)
+
+def _reduce_datetimes(row):
+    """Receives a row, converts datetimes to strings."""
+    for i in range(len(row)):
+        if isinstance(row[i], datetime):
+            row[i] = '{}'.format(row[i])
+    return row

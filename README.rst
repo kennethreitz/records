@@ -40,8 +40,8 @@ Or store them all for later reference:
     >>> rows.all()
     [{'username': ...}, {'username': ...}, {'username': ...}, ...]
 
-Features
---------
+☤ Features
+----------
 
 - HSTORE support, if available.
 - Iterated rows are cached for future reference.

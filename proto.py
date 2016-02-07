@@ -83,11 +83,11 @@ class ResultSet(object):
         return '<ResultSet>'
 
     def __iter__(self):
-        if self._all_rows:
-            for row in self._all_rows:
-                yield row
-        else:
-            yield self._rows.next()
+        # Use cached results if available.
+        rows = self._rows if not self._all_rows else self._all_rows
+
+        for row in rows:
+            yield row
 
     def next(self):
         try:

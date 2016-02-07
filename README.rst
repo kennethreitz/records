@@ -72,7 +72,7 @@ Excellent for sharing data with friends, or generating reports.
     hansolo |True  |Henry Ford|hansolo@gmail.com|2016-02-06 22:28:23.894202
     ...
 
-Export your query results to CSV:
+- CSV
 
 .. code:: pycon
 
@@ -81,7 +81,7 @@ Export your query results to CSV:
     hansolo,True,Henry Ford,hansolo@gmail.com,2016-02-06 22:28:23.894202
     ...
 
-- YAML:
+- YAML
 
 .. code:: python
 
@@ -89,7 +89,7 @@ Export your query results to CSV:
     - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: hansolo@gmail.com, username: hansolo}
     ...
 
-- JSON:
+- JSON
 
 .. code:: python
 
@@ -97,7 +97,7 @@ Export your query results to CSV:
     [{"username": "hansolo", "active": true, "name": "Henry Ford", "user_email": "hansolo@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
 
-Excel:
+- Excel (xls, xlsx)
 
 .. code:: python
 

@@ -8,7 +8,7 @@ This common task can be surprisingly difficult with the standard tools available
 This library strives to make this workflow as easy and seamless as possible, 
 while providing an elegant interface to work with your query results.
 
-No need to replicate your schemas in code or count column indexes.
+Rows are represented as standard Python dictionaries (``{'column-name': 'value'}``).
 
 .. code:: python
 

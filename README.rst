@@ -106,7 +106,7 @@ Excellent for sharing data with friends, or generating reports.
 
 You get the point. Of course, all other features of Tablib are also
 available, so you can sort results, add/remove columns/rows, remove 
-duplicates, tranpose the table, add separators, slice data by column, 
+duplicates, transpose the table, add separators, slice data by column, 
 and more.
 
 See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_

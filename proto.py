@@ -25,16 +25,22 @@ class ResultSet(object):
     def __init__(self, rows):
         self._rows = rows
         self._all_rows = []
+        self._completed = False
 
     def __repr__(self):
         return '<ResultSet {:o}>'.format(id(self))
 
     def __iter__(self):
         # Use cached results if available.
-        rows = self._rows if not self._all_rows else self._all_rows
+        if self._completed:
+            for row in self._all_rows:
+                yield row
 
-        for row in rows:
+        # Iterate over result cursor, cache rows.
+        for row in self._rows:
+            self._all_rows.append(row)
             yield row
+        self._completed = True
 
     def next(self):
         try:

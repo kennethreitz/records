@@ -2,10 +2,10 @@ Records: Just Write SQL
 =======================
 
 Records is a very simple, but powerful, library for making raw SQL queries
-to Postgres databases. 
+to Postgres databases.
 
-This common task can be surprisingly difficult with the standard tools available. 
-This library strives to make this workflow as simple as possible, 
+This common task can be surprisingly difficult with the standard tools available.
+This library strives to make this workflow as simple as possible,
 while providing an elegant interface to work with your query results.
 
 We know how to write SQL, so let's send some to our database:
@@ -13,7 +13,7 @@ We know how to write SQL, so let's send some to our database:
 .. code:: python
 
     import records
-    
+
     db = records.Database('postgres://...')
     rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
@@ -55,8 +55,8 @@ Data Export Functionality
 -------------------------
 
 Records also features full Tablib integration, and allows you to export
-your results to CSV, XLS, JSON, or YAML with a single line of code. Excellent
-for sharing data with friends, or generating reports.
+your results to CSV, XLS, JSON, HTML Tables, or YAML with a single line of code.
+Excellent for sharing data with friends, or generating reports.
 
 .. code:: python2
 
@@ -98,12 +98,12 @@ Excel:
     with open('report.xls', 'wb') as f:
         f.write(rows.dataset.xls)
 
-You get the point. Of course, all other features of Tablib are also 
-available, so you can add/remove columns/rows, add seperators, 
+You get the point. Of course, all other features of Tablib are also
+available, so you can add/remove columns/rows, add seperators,
 slice data by column, and more.
 
-See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_ 
-for more details. 
+See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_
+for more details.
 
 Installation
 ------------
@@ -116,6 +116,6 @@ Of course, the recommended installation method is pip::
 Thank You
 ---------
 
-Thanks for checking this library out! I hope you find it useful. 
+Thanks for checking this library out! I hope you find it useful.
 
 Of course, there's always room for improvement. Feel free to `open an issue <https://github.com/kennethreitz/records/issues>`_ so we can make Records better, stronger, faster.

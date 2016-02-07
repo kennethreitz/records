@@ -7,9 +7,73 @@ standard tools available. This library strives to make this simple workflow
 as easy and seamless as possible, while providing an elegant interface to work
 with your results.
 
+::
+
+    import relational
+    db = relational.Database('postgres://...')
+
+    rows = db.query_file('sqls/active-users.sql')
+
+You can grab rows one at a time::
+
+    >>> rows.next()
+    {'username': 'hansolo', 'name': 'Henry Ford', 'active': True, 'timezone': datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), 'user_email': 'hansolo@gmail.com'}
+
+Iterate over them::
+
+    for row in rows:
+        spam_user(name=row['name'], email=row['user_email'])
+
+Or fetch all results for later reference::
+
+    >>> rows.all()
+    [{...}, {...}, {...}, ...]
+
 Relational also feature full Tablib integration, which allows you to export
 your results to CSV, XLS, JSON, or YAML with a single line of code. Excellent
 for sharing data with friends, or generating reports.
+
+::
+
+    >>> print rows.dataset
+    username|active|name      |user_email       |timezone
+    --------|------|----------|-----------------|--------------------------
+    hansolo |True  |Henry Ford|hansolo@gmail.com|2016-02-06 22:28:23.894202
+    ...
+
+Export your query to CSV::
+
+    >>> rows.dataset.csv
+    username,active,name,user_email,timezone
+    hansolo,True,Henry Ford,hansolo@gmail.com,2016-02-06 22:28:23.894202
+    ...
+
+YAML::
+
+    >>> rows.dataset.yaml
+    - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: hansolo@gmail.com,
+  username: hansolo}
+    ...
+
+JSON::
+
+    >>> rows.dataset.json
+    [{"username": "hansolo", "active": true, "name": "Henry Ford", "user_email": "hansolo@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
+
+
+Excel::
+
+    with open('report.xls', 'wb') as f:
+        f.write(rows.dataset.xls)
+
+You get the point. Plus all the other features of Tablib are there, so you
+can add/remove columns, include seperators, query columns, and more.
+
+
+
+Features
+--------
+
 
 - HSTORE support, if available.
 - Iterated rows are cached for future reference.

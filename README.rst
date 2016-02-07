@@ -2,7 +2,7 @@ Records: Just Write SQL
 =======================
 
 Records is a very simple, but powerful, library for making raw SQL queries
-to Postgres Databases. 
+to Postgres databases. 
 
 This common task can be surprisingly difficult with the standard tools available. 
 This library strives to make this workflow as easy and seamless as possible, 

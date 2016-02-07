@@ -31,7 +31,7 @@ setup(
     author='Kenneth Reitz',
     author_email='me@kennethreitz.org',
     url='https://github.com/kennethreitz/records',
-    py_modules=['records']
+    py_modules=['records'],
     package_data={'': ['LICENSE']},
     include_package_data=True,
     install_requires=requires,

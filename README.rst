@@ -58,7 +58,7 @@ Records also features full Tablib integration, and allows you to export
 your results to CSV, XLS, JSON, HTML Tables, or YAML with a single line of code.
 Excellent for sharing data with friends, or generating reports.
 
-.. code:: python2
+.. code:: pycon
 
     >>> print rows.dataset
     username|active|name      |user_email       |timezone
@@ -68,7 +68,7 @@ Excellent for sharing data with friends, or generating reports.
 
 Export your query results to CSV:
 
-.. code:: python2
+.. code:: pycon
 
     >>> print rows.dataset.csv
     username,active,name,user_email,timezone

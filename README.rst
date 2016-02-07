@@ -10,8 +10,8 @@ with your results.
 .. code:: python
 
     import relational
+    
     db = relational.Database('postgres://...')
-
     rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
 You can grab rows one at a time:

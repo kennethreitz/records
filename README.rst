@@ -17,7 +17,7 @@ We know how to write SQL, so let's send some to our database:
     db = records.Database('postgres://...')
     rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
-Rows are represented as standard Python dictionaries (``{'column-name': 'value'}``). Grab one row at a time:
+Rows are represented as standard Python dictionaries: ``{'column-name': 'value'}``. Grab one row at a time:
 
 .. code:: python
 
@@ -45,9 +45,9 @@ Features
 - Iterated rows are cached for future reference.
 - ``$DATABASE_URL`` environment variable support.
 - Convenience ``Database.get_table_names`` method.
-- Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_ (``Database.query('%s', params=('42'))``)
+- Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('%s', params=('42',))``
 - Queries can be passed as strings or filenames, parameters supported.
-- Query results are iterators of standard Python dictionaries (``{'column-name': 'value'}``)
+- Query results are iterators of standard Python dictionaries: ``{'column-name': 'value'}``
 
 Records is powered by `psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
 and `Tablib <http://docs.python-tablib.org/en/latest/>`_.

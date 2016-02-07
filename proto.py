@@ -1,10 +1,6 @@
 import os
 from datetime import datetime
-from multiprocessing.util import register_after_fork
 
-from sqlalchemy import create_engine, MetaData, Table
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 
 import tablib
 import psycopg2
@@ -18,66 +14,16 @@ PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_ca
 PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
 
 
-Base = declarative_base()
-
-
-_ENGINES = {}
-_SESSIONS = {}
-
-# https://github.com/celery/celery/blob/master/celery/backends/database/session.py#L27-L46
-
-class _after_fork(object):
-    registered = False
-
-    def __call__(self):
-        self.registered = False  # child must reregister
-        for engine in list(_ENGINES.values()):
-            engine.dispose()
-        _ENGINES.clear()
-        _SESSIONS.clear()
-after_fork = _after_fork()
-
-def get_engine(dburi, **kwargs):
-    try:
-        return _ENGINES[dburi]
-    except KeyError:
-        engine = _ENGINES[dburi] = create_engine(dburi, **kwargs)
-        after_fork.registered = True
-        register_after_fork(after_fork, after_fork)
-        return engine
-
-
-def create_session(dburi, short_lived_sessions=False, **kwargs):
-    engine = get_engine(dburi, **kwargs)
-    if short_lived_sessions or dburi not in _SESSIONS:
-        _SESSIONS[dburi] = sessionmaker(bind=engine)
-    return engine, _SESSIONS[dburi]
-
-engine = create_engine(DATABASE_URL)
-metadata = MetaData(bind=engine)
-
-session_maker = create_session(DATABASE_URL)[1]
-
-
-class SessionPropertyMixin(object):
-
-    def save(self, session=None, commit=True, close=False):
-
-        if session:
-            session.add(self)
-            session.commit()
-
-        if close:
-            session.close()
 
 def reduce_datetimes(row):
+    """Receives a row, converts datetimes to strings."""
     for i in range(len(row)):
         if isinstance(row[i], datetime):
             row[i] = '{}'.format(row[i])
     return row
 
 class ResultSet(object):
-    """A ResultSet from a query."""
+    """A set of results from a query."""
     def __init__(self, rows):
         self._rows = rows
         self._all_rows = []
@@ -97,10 +43,6 @@ class ResultSet(object):
             return self._rows.next()
         except StopIteration:
             raise StopIteration("ResultSet contains no more rows.")
-
-
-    def _fetch_all(self):
-        return list(self._rows)
 
     @property
     def dataset(self):
@@ -124,7 +66,7 @@ class ResultSet(object):
 
         # If rows aren't cached, fetch them.
         if not self._all_rows:
-            self._all_rows = self._fetch_all()
+            self._all_rows = list(self._rows)
         return self._all_rows
 
 
@@ -152,7 +94,9 @@ class Database(object):
         # Support listing internal table names as well.
         query = PG_INTERNAL_TABLES_QUERY if internal else PG_TABLES_QUERY
 
+        # Return a list of tablenames.
         return [r['tablename'] for r in self.query(query)]
+
 
     def query(self, query, params=None, fetchall=False):
         """Executes the given SQL query against the Database. Parameters

@@ -14,6 +14,9 @@ from datetime import datetime
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
+PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'"
+PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
+
 
 Base = declarative_base()
 
@@ -142,6 +145,14 @@ class Database(object):
             register_hstore(self.db)
         except ProgrammingError:
             pass
+
+    def get_table_names(self, internal=False):
+        """Returns a list of table names for the connected database."""
+
+        # Support listing internal table names as well.
+        query = PG_INTERNAL_TABLES_QUERY if internal else PG_TABLES_QUERY
+
+        return [r['tablename'] for r in self.query(query)]
 
     def query(self, query, params=None, fetchall=False):
         """Executes the given SQL query against the Database. Parameters

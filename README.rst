@@ -68,7 +68,7 @@ for sharing data with friends, or generating reports.
 
 Export your query to CSV:
 
-.. code:: python
+.. code:: python2
 
     >>> rows.dataset.csv
     username,active,name,user_email,timezone

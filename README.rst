@@ -12,8 +12,7 @@ with your results.
     import relational
     db = relational.Database('postgres://...')
 
-    # rows = db.query('select * from active_users')
-    rows = db.query_file('sqls/active-users.sql')
+    rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
 You can grab rows one at a time:
 

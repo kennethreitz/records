@@ -74,35 +74,34 @@ Excellent for sharing data with friends, or generating reports.
 
 - CSV
 
-.. code:: pycon
+  .. code:: pycon
 
-    >>> print rows.dataset.csv
-    username,active,name,user_email,timezone
-    model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
-    ...
+      >>> print rows.dataset.csv
+      username,active,name,user_email,timezone
+      model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
+      ...
 
 - YAML
 
-.. code:: python
+  .. code:: python
 
-    >>> print rows.dataset.yaml
-    - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
-    ...
+      >>> print rows.dataset.yaml
+      - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
+      ...
 
 - JSON
 
-.. code:: python
+  .. code:: python
 
-    >>> print rows.dataset.json
-    [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
-
+      >>> print rows.dataset.json
+      [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
 - Excel (xls, xlsx)
 
-.. code:: python
+  .. code:: python
 
-    with open('report.xls', 'wb') as f:
-        f.write(rows.dataset.xls)
+      with open('report.xls', 'wb') as f:
+          f.write(rows.dataset.xls)
 
 You get the point. Of course, all other features of Tablib are also
 available, so you can sort results, add/remove columns/rows, remove 

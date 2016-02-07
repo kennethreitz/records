@@ -4,15 +4,13 @@ from datetime import datetime
 
 import tablib
 import psycopg2
-from psycopg2.extras import RealDictConnection, register_hstore, RealDictCursor, NamedTupleCursor, DictCursor
-from psycopg2 import ProgrammingError
+from psycopg2.extras import register_hstore, RealDictCursor
 from datetime import datetime
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'"
 PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
-
 
 
 def reduce_datetimes(row):
@@ -29,7 +27,7 @@ class ResultSet(object):
         self._all_rows = []
 
     def __repr__(self):
-        return '<ResultSet>'
+        return '<ResultSet {:o}>'.format(id(self))
 
     def __iter__(self):
         # Use cached results if available.
@@ -69,8 +67,6 @@ class ResultSet(object):
             self._all_rows = list(self._rows)
         return self._all_rows
 
-
-
 class Database(object):
     """A Database connection."""
 
@@ -85,7 +81,7 @@ class Database(object):
     def _enable_hstore(self):
         try:
             register_hstore(self.db)
-        except ProgrammingError:
+        except psycopg2.ProgrammingError:
             pass
 
     def get_table_names(self, internal=False):
@@ -96,7 +92,6 @@ class Database(object):
 
         # Return a list of tablenames.
         return [r['tablename'] for r in self.query(query)]
-
 
     def query(self, query, params=None, fetchall=False):
         """Executes the given SQL query against the Database. Parameters

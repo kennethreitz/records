@@ -79,13 +79,12 @@ class Database(object):
     def __init__(self, db_url=None):
 
         # If no db_url was provided, fallback to $DATABASE_URL.
-        if not db_url and DATABASE_URL:
-            db_url = DATABASE_URL
+        self.db_url = db_url or DATABASE_URL
 
-        if not db_url:
+        if not self.db_url:
             raise ValueError('You must provide a db_url.')
 
-        self.db_url = db_url
+        # Connect to the database.
         self.db = psycopg2.connect(self.db_url, cursor_factory=RealDictCursor)
 
         # Enable hstore if it's available.
@@ -117,11 +116,16 @@ class Database(object):
         c.execute(query, params)
 
         # Row-by-row result generator.
-        gen = (r for r in c)
-        return ResultSet(gen)
+        row_gen = (r for r in c)
 
-        # If fetchall is True, return a list.
-        # return list(gen) if fetchall else gen
+        # Convert psycopg2 results to ResultSet
+        results = ResultSet(row_gen)
+
+        # Fetch all results if desired.
+        if fetchall:
+            results.all()
+
+        return results
 
     def query_file(self, path, params=None, fetchall=False):
         """Like Database.query, but takes a filename to load a query from."""

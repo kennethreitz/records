@@ -49,7 +49,7 @@ Features
 - Queries can be passed as strings or filenames, parameters supported.
 - Query results are iterators of standard Python dictionaries: ``{'column-name': 'value'}``
 
-Records is powered by `psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
+Records is proudly powered by `Psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
 and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
 
 Data Export Functionality

@@ -1,5 +1,5 @@
-Records: SQL for Humans
-=======================
+Records: SQL for Humans™
+========================
 
 Records is a very simple, but powerful, library for making raw SQL queries
 to Postgres databases.

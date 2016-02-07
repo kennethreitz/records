@@ -99,7 +99,7 @@ You get the point. Of course, all other features of Tablib are also
 available, so you can add/remove columns/rows, include seperators, 
 select data by column, and more.
 
-See the ` Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_ 
+See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_ 
 for more details. 
 
 Installation

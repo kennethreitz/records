@@ -72,7 +72,7 @@ Excellent for sharing data with friends, or generating reports.
     model-t |True  |Henry Ford|model-t@gmail.com|2016-02-06 22:28:23.894202
     ...
 
-- CSV
+- Comma Seperated Values (CSV)
 
   .. code:: pycon
 
@@ -81,7 +81,7 @@ Excellent for sharing data with friends, or generating reports.
       model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
       ...
 
-- YAML
+- YAML Ain't Markup Language (YAML)
 
   .. code:: python
 
@@ -89,14 +89,14 @@ Excellent for sharing data with friends, or generating reports.
       - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
       ...
 
-- JSON
+- JavaScript Object Notation (JSON)
 
   .. code:: python
 
       >>> print rows.dataset.json
       [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
-- Excel (xls, xlsx)
+- Microsoft Excel (xls, xlsx)
 
   .. code:: python
 

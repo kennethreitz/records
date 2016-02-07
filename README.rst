@@ -99,7 +99,7 @@ Excel:
         f.write(rows.dataset.xls)
 
 You get the point. Of course, all other features of Tablib are also
-available, so you can add/remove columns/rows, add seperators,
+available, so you can add/remove columns/rows, add separators,
 slice data by column, and more.
 
 See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_

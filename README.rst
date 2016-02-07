@@ -118,8 +118,7 @@ for more details.
 Of course, the recommended installation method is pip::
 
     $ pip install records
-
-✨🍰✨
+    ✨🍰✨
 
 ☤ Thank You
 -----------

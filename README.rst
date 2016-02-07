@@ -12,6 +12,7 @@ with your results.
     import relational
     db = relational.Database('postgres://...')
 
+    # rows = db.query('select * from active_users')
     rows = db.query_file('sqls/active-users.sql')
 
 You can grab rows one at a time:
@@ -33,16 +34,15 @@ Or fetch all results for later reference:
 .. code:: python
 
     >>> rows.all()
-    [{...}, {...}, {...}, ...]
+    [{'username': ...}, {'username': ...}, {'username': ...}, ...]
 
 Features
 --------
 
-
 - HSTORE support, if available.
 - Iterated rows are cached for future reference.
 - ``$DATABASE_URL`` environment variable support.
-- Convenience `Database.get_table_names` method.
+- Convenience ``Database.get_table_names`` method.
 - Queries can be passed as strings or filenames, parameters supported.
 - Query results are iterators of standard Python dictionaries (``{'column-name': 'value'}``)
 

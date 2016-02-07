@@ -35,6 +35,23 @@ Or fetch all results for later reference:
     >>> rows.all()
     [{...}, {...}, {...}, ...]
 
+Features
+--------
+
+
+- HSTORE support, if available.
+- Iterated rows are cached for future reference.
+- ``$DATABASE_URL`` environment variable support.
+- Convenience `Database.get_table_names` method.
+- Queries can be passed as strings or filenames, parameters supported.
+- Query results are iterators of standard Python dictionaries (``{'column-name': 'value'}``)
+
+Relational is powered by `psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
+and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
+
+Data Export Functionality
+-------------------------
+
 Relational also feature full Tablib integration, which allows you to export
 your results to CSV, XLS, JSON, or YAML with a single line of code. Excellent
 for sharing data with friends, or generating reports.
@@ -84,16 +101,4 @@ can add/remove columns, include seperators, query columns, and more.
 
 
 
-Features
---------
 
-
-- HSTORE support, if available.
-- Iterated rows are cached for future reference.
-- ``$DATABASE_URL`` environment variable support.
-- Convenience `Database.get_table_names` method.
-- Queries can be passed as strings or filenames, parameters supported.
-- Query results are iterators of standard Python dictionaries (``{'column-name': 'value'}``)
-
-Relational is powered by `psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
-and `Tablib <http://docs.python-tablib.org/en/latest/>`_.

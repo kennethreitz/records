@@ -12,7 +12,7 @@ from setuptools import setup
 if sys.argv[-1] == 'publish':
     os.system('python setup.py register')
     os.system('python setup.py sdist upload')
-    os.system('python setup.py bdist_wheel upload')
+    os.system('python setup.py bdist_wheel upload --universal')
     sys.exit()
 
 requires = ['psycopg2', 'tablib']

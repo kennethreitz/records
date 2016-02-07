@@ -39,7 +39,7 @@ Relational also feature full Tablib integration, which allows you to export
 your results to CSV, XLS, JSON, or YAML with a single line of code. Excellent
 for sharing data with friends, or generating reports.
 
-.. code:: python
+.. code:: python2
 
     >>> print rows.dataset
     username|active|name      |user_email       |timezone

@@ -74,39 +74,61 @@ def reduce_datetimes(row):
     return row
 
 class ResultSet(object):
+    """A ResultSet from a query."""
     def __init__(self, rows):
         self._rows = rows
         self._all_rows = []
+
+    def __repr__(self):
+        return '<ResultSet>'
+
+    def __iter__(self):
+        if self._all_rows:
+            for row in self._all_rows:
+                yield row
+        else:
+            yield self._rows.next()
+
+    def next(self):
+        try:
+            return self._rows.next()
+        except StopIteration:
+            raise StopIteration("ResultSet contains no more rows.")
+
 
     def _fetch_all(self):
         return list(self._rows)
 
     @property
     def dataset(self):
+        """A Tablib Dataset representation of the ResultSet."""
+        # Create a new Tablib Dataset.
         data = tablib.Dataset()
-        data.headers = self.all[0].keys()
 
-        for row in self.all:
-            row = [v for k, v in row.items()]
-            row = reduce_datetimes(row)
+        # Set the column names as headers on Tablib Dataset.
+        data.headers = self.all()[0].keys()
+
+        # Take each row, string-ify datetimes, insert into Tablib Dataset.
+        for row in self.all():
+            row = reduce_datetimes([v for k, v in row.items()])
             data.append(row)
 
         return data
 
-    @property
     def all(self):
+        """Returns a list of all rows for the ResultSet. If they haven't
+        been fetched yet, consume the iterator and cache the results."""
+
+        # If rows aren't cached, fetch them.
         if not self._all_rows:
             self._all_rows = self._fetch_all()
         return self._all_rows
 
-    def __getattr__(self, attr):
-        fallback_attr = getattr(self._rows, attr)
-        return getattr(object, attr, fallback_attr)
-
-
 
 
 class Database(object):
+    """A Database connection."""
+
     def __init__(self, conn_str):
         self._conn_str = conn_str
         self.db = psycopg2.connect(conn_str, cursor_factory=RealDictCursor)
@@ -116,16 +138,19 @@ class Database(object):
 
 
     def _enable_hstore(self):
-
         try:
             register_hstore(self.db)
         except ProgrammingError:
             pass
 
-    def query(self, q, params=None, fetchall=False):
+    def query(self, query, params=None, fetchall=False):
+        """Executes the given SQL query against the Database. Parameters
+        can, optionally, be provided. Returns a ResultSet, which can be
+        iterated over to get result rows as dictionaries.
+        """
         # Execute the given query.
         c = self.db.cursor()
-        c.execute(q, params)
+        c.execute(query, params)
 
         # Row-by-row result generator.
         gen = (r for r in c)
@@ -135,9 +160,10 @@ class Database(object):
         # return list(gen) if fetchall else gen
 
     def query_file(self, path, params=None, fetchall=False):
+        """Like Database.query, but takes a filename to load a query from."""
         # Read the given .sql file into memory.
         with open(path) as f:
             query = f.read()
 
         # Defer processing to self.query method.
-        return self.query(query, params=params, fetchall=fetchall)
+        return self.query(query=query, params=params, fetchall=fetchall)

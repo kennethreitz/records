@@ -27,7 +27,7 @@ Grab one row at a time:
 .. code:: python
 
     >>> rows.next()
-    {'username': 'hansolo', 'name': 'Henry Ford', 'active': True, 'timezone': datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), 'user_email': 'hansolo@gmail.com'}
+    {'username': 'model-t', 'name': 'Henry Ford', 'active': True, 'timezone': datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), 'user_email': 'model-t@gmail.com'}
 
 Or iterate over them:
 
@@ -69,7 +69,7 @@ Excellent for sharing data with friends, or generating reports.
     >>> print rows.dataset
     username|active|name      |user_email       |timezone
     --------|------|----------|-----------------|--------------------------
-    hansolo |True  |Henry Ford|hansolo@gmail.com|2016-02-06 22:28:23.894202
+    model-t |True  |Henry Ford|model-t@gmail.com|2016-02-06 22:28:23.894202
     ...
 
 - CSV
@@ -78,7 +78,7 @@ Excellent for sharing data with friends, or generating reports.
 
     >>> print rows.dataset.csv
     username,active,name,user_email,timezone
-    hansolo,True,Henry Ford,hansolo@gmail.com,2016-02-06 22:28:23.894202
+    model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
     ...
 
 - YAML
@@ -86,7 +86,7 @@ Excellent for sharing data with friends, or generating reports.
 .. code:: python
 
     >>> print rows.dataset.yaml
-    - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: hansolo@gmail.com, username: hansolo}
+    - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
     ...
 
 - JSON
@@ -94,7 +94,7 @@ Excellent for sharing data with friends, or generating reports.
 .. code:: python
 
     >>> print rows.dataset.json
-    [{"username": "hansolo", "active": true, "name": "Henry Ford", "user_email": "hansolo@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
+    [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
 
 - Excel (xls, xlsx)

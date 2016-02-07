@@ -54,8 +54,8 @@ Or store them all for later reference:
 Records is proudly powered by `Psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
 and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
 
-Data Export Functionality
--------------------------
+☤ Data Export Functionality
+---------------------------
 
 Records also features full Tablib integration, and allows you to export
 your results to CSV, XLS, JSON, HTML Tables, or YAML with a single line of code.
@@ -109,8 +109,8 @@ and more.
 See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_
 for more details.
 
-Installation
-------------
+☤ Installation
+--------------
 
 Of course, the recommended installation method is pip::
 

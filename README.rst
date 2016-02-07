@@ -66,7 +66,7 @@ for sharing data with friends, or generating reports.
     hansolo |True  |Henry Ford|hansolo@gmail.com|2016-02-06 22:28:23.894202
     ...
 
-Export your query to CSV:
+Export your query results to CSV:
 
 .. code:: python2
 

@@ -30,7 +30,7 @@ Iterate over them:
 
 Or fetch all results for later reference:
 
-.. code:: pycon
+.. code:: python
 
     >>> rows.all()
     [{...}, {...}, {...}, ...]
@@ -39,7 +39,7 @@ Relational also feature full Tablib integration, which allows you to export
 your results to CSV, XLS, JSON, or YAML with a single line of code. Excellent
 for sharing data with friends, or generating reports.
 
-.. code:: pycon
+.. code:: python
 
     >>> print rows.dataset
     username|active|name      |user_email       |timezone
@@ -49,7 +49,7 @@ for sharing data with friends, or generating reports.
 
 Export your query to CSV:
 
-.. code:: pycon
+.. code:: python
 
     >>> rows.dataset.csv
     username,active,name,user_email,timezone
@@ -58,7 +58,7 @@ Export your query to CSV:
 
 YAML:
 
-.. code:: pycon
+.. code:: python
 
     >>> rows.dataset.yaml
     - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: hansolo@gmail.com, username: hansolo}
@@ -66,7 +66,7 @@ YAML:
 
 JSON:
 
-.. code:: pycon
+.. code:: python
 
     >>> rows.dataset.json
     [{"username": "hansolo", "active": true, "name": "Henry Ford", "user_email": "hansolo@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]

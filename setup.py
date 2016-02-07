@@ -26,7 +26,7 @@ with open('HISTORY.rst', 'r', 'utf-8') as f:
 setup(
     name='records',
     version=version,
-    description='Records: Just Write SQL.',
+    description='SQL for Humans',
     long_description=readme + '\n\n' + history,
     author='Kenneth Reitz',
     author_email='me@kennethreitz.org',

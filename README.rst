@@ -22,14 +22,14 @@ Rows are represented as standard Python dictionaries (``{'column-name': 'value'}
     >>> rows.next()
     {'username': 'hansolo', 'name': 'Henry Ford', 'active': True, 'timezone': datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), 'user_email': 'hansolo@gmail.com'}
 
-Iterate over them:
+Or iterate over them:
 
 .. code:: python
 
     for row in rows:
         spam_user(name=row['name'], email=row['user_email'])
 
-Or fetch all results for later reference:
+Or store them all for later reference:
 
 .. code:: python
 

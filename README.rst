@@ -47,7 +47,7 @@ Features
 - Iterated rows are cached for future reference.
 - ``$DATABASE_URL`` environment variable support.
 - Convenience ``Database.get_table_names`` method.
-- Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('%s', params=('42',))``
+- Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('life=%s', params=('42',))``
 - Queries can be passed as strings or filenames, parameters supported.
 - Query results are iterators of standard Python dictionaries: ``{'column-name': 'value'}``
 

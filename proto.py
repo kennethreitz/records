@@ -13,7 +13,7 @@ PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_ca
 PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
 
 
-def reduce_datetimes(row):
+def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""
     for i in range(len(row)):
         if isinstance(row[i], datetime):
@@ -59,7 +59,7 @@ class ResultSet(object):
 
         # Take each row, string-ify datetimes, insert into Tablib Dataset.
         for row in self.all():
-            row = reduce_datetimes([v for k, v in row.items()])
+            row = _reduce_datetimes([v for k, v in row.items()])
             data.append(row)
 
         return data

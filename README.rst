@@ -83,7 +83,7 @@ Export your query results to CSV:
 
 - YAML:
 
-    .. code:: python
+.. code:: python
 
     >>> print rows.dataset.yaml
     - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: hansolo@gmail.com, username: hansolo}
@@ -91,7 +91,7 @@ Export your query results to CSV:
 
 - JSON:
 
-    .. code:: python
+.. code:: python
 
     >>> print rows.dataset.json
     [{"username": "hansolo", "active": true, "name": "Henry Ford", "user_email": "hansolo@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]

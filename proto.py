@@ -70,9 +70,17 @@ class ResultSet(object):
 class Database(object):
     """A Database connection."""
 
-    def __init__(self, conn_str):
-        self._conn_str = conn_str
-        self.db = psycopg2.connect(conn_str, cursor_factory=RealDictCursor)
+    def __init__(self, db_url=None):
+
+        # If no db_url was provided, fallback to $DATABASE_URL.
+        if not db_url and DATABASE_URL:
+            db_url = DATABASE_URL
+
+        if not db_url:
+            raise ValueError('You must provide a db_url.')
+
+        self.db_url = db_url
+        self.db = psycopg2.connect(self.db_url, cursor_factory=RealDictCursor)
 
         # Enable hstore if it's available.
         self._enable_hstore()

@@ -95,9 +95,24 @@ Excel:
     with open('report.xls', 'wb') as f:
         f.write(rows.dataset.xls)
 
-You get the point. Plus all the other features of Tablib are there, so you
-can add/remove columns, include seperators, query columns, and more.
+You get the point. Of course, all other features of Tablib are also 
+available, so you can add/remove columns/rows, include seperators, 
+select data by column, and more.
+
+See the ` Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_ 
+for more details. 
+
+Installation
+------------
+
+Of course, the recommended installation method is pip::
+
+    $ pip install records
 
 
+Thank You
+---------
 
+Thanks for checking this library out! I hope you find it useful. 
 
+Of course, there's always room for improvement too. Feel free to `open an issue <https://github.com/kennethreitz/records/issues>`_ so we can make it even better.

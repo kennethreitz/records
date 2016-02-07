@@ -8,8 +8,6 @@ This common task can be surprisingly difficult with the standard tools available
 This library strives to make this workflow as easy and seamless as possible, 
 while providing an elegant interface to work with your query results.
 
-Rows are represented as standard Python dictionaries (``{'column-name': 'value'}``).
-
 .. code:: python
 
     import relational
@@ -17,7 +15,7 @@ Rows are represented as standard Python dictionaries (``{'column-name': 'value'}
     db = relational.Database('postgres://...')
     rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
-You can grab rows one at a time:
+Rows are represented as standard Python dictionaries (``{'column-name': 'value'}``). Grab one row at a time:
 
 .. code:: python
 

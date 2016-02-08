@@ -27,7 +27,7 @@ Grab one row at a time:
 .. code:: python
 
     >>> rows.next()
-    {'username': 'model-t', 'name': 'Henry Ford', 'active': True, 'timezone': datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), 'user_email': 'model-t@gmail.com'}
+    {'username': 'model-t', 'name': 'Harrison Ford', 'active': True, 'timezone': datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), 'user_email': 'model-t@gmail.com'}
 
 Or iterate over them:
 
@@ -67,9 +67,9 @@ Excellent for sharing data with friends, or generating reports.
 .. code:: pycon
 
     >>> print rows.dataset
-    username|active|name      |user_email       |timezone
-    --------|------|----------|-----------------|--------------------------
-    model-t |True  |Henry Ford|model-t@gmail.com|2016-02-06 22:28:23.894202
+    username|active|name         |user_email       |timezone
+    --------|------|-------------|-----------------|--------------------------
+    model-t |True  |Harrison Ford|model-t@gmail.com|2016-02-06 22:28:23.894202
     ...
 
 - Comma Seperated Values (CSV)
@@ -78,7 +78,7 @@ Excellent for sharing data with friends, or generating reports.
 
       >>> print rows.dataset.csv
       username,active,name,user_email,timezone
-      model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
+      model-t,True,Harrison Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
       ...
 
 - YAML Ain't Markup Language (YAML)
@@ -86,7 +86,7 @@ Excellent for sharing data with friends, or generating reports.
   .. code:: python
 
       >>> print rows.dataset.yaml
-      - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
+      - {active: true, name: Harrison Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
       ...
 
 - JavaScript Object Notation (JSON)
@@ -94,7 +94,7 @@ Excellent for sharing data with friends, or generating reports.
   .. code:: python
 
       >>> print rows.dataset.json
-      [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
+      [{"username": "model-t", "active": true, "name": "Harrison Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
 - Microsoft Excel (xls, xlsx)
 
@@ -104,8 +104,8 @@ Excellent for sharing data with friends, or generating reports.
           f.write(rows.dataset.xls)
 
 You get the point. Of course, all other features of Tablib are also
-available, so you can sort results, add/remove columns/rows, remove 
-duplicates, transpose the table, add separators, slice data by column, 
+available, so you can sort results, add/remove columns/rows, remove
+duplicates, transpose the table, add separators, slice data by column,
 and more.
 
 See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_
@@ -125,5 +125,3 @@ Of course, the recommended installation method is pip::
 Thanks for checking this library out! I hope you find it useful.
 
 Of course, there's always room for improvement. Feel free to `open an issue <https://github.com/kennethreitz/records/issues>`_ so we can make Records better, stronger, faster.
-
-

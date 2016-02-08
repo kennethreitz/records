@@ -18,16 +18,14 @@ if sys.argv[-1] == 'publish':
 requires = ['psycopg2', 'tablib']
 version = '0.1.0'
 
-with open('README.rst', 'r', 'utf-8') as f:
-    readme = f.read()
-with open('HISTORY.rst', 'r', 'utf-8') as f:
-    history = f.read()
+def read(f):
+    return open(f, encoding='utf-8').read()
 
 setup(
     name='records',
     version=version,
     description='SQL for Humans',
-    long_description=readme + '\n\n' + history,
+    long_description=read('README.rst') + '\n\n' + read('HISTORY.rst'),
     author='Kenneth Reitz',
     author_email='me@kennethreitz.org',
     url='https://github.com/kennethreitz/records',

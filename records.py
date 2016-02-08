@@ -122,6 +122,15 @@ class Database(object):
 
     def query_file(self, path, params=None, fetchall=False):
         """Like Database.query, but takes a filename to load a query from."""
+
+        # If path doesn't exists
+        if not os.path.exists(path):
+        	raise FileNotFoundError
+
+        # If it's a directory
+        if os.path.isdir(path):
+        	raise IsADirectoryError
+
         # Read the given .sql file into memory.
         with open(path) as f:
             query = f.read()

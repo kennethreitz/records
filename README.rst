@@ -103,10 +103,9 @@ Excellent for sharing data with friends, or generating reports.
       with open('report.xls', 'wb') as f:
           f.write(rows.dataset.xls)
 
-You get the point. Of course, all other features of Tablib are also
-available, so you can sort results, add/remove columns/rows, remove 
-duplicates, transpose the table, add separators, slice data by column, 
-and more.
+You get the point. All other features of Tablib are also available, 
+so you can sort results, add/remove columns/rows, remove duplicates, 
+transpose the table, add separators, slice data by column, and more.
 
 See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_
 for more details.

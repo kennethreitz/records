@@ -25,7 +25,7 @@ Grab one row at a time:
 .. code:: python
 
     >>> rows[0]
-    Record(username='model-t', name='Henry Ford', active=True, timezone=datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), user_email=model-t@gmail.com')
+    Record(username='model-t', name='Henry Ford', active=True, timezone=datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), user_email='model-t@gmail.com')
 
 Or iterate over them:
 

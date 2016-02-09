@@ -154,11 +154,11 @@ class Database(object):
 
         # If path doesn't exists
         if not os.path.exists(path):
-        	raise FileNotFoundError
+            raise FileNotFoundError
 
         # If it's a directory
         if os.path.isdir(path):
-        	raise IsADirectoryError
+            raise IsADirectoryError
 
         # Read the given .sql file into memory.
         with open(path) as f:
@@ -173,11 +173,3 @@ def _reduce_datetimes(row):
         if hasattr(row[i], 'isoformat'):
             row = row._replace(**{row._fields[0]: row[i].isoformat()})
     return row
-
-def _isnamedtupleinstance(x):
-    t = type(x)
-    b = t.__bases__
-    if len(b) != 1 or b[0] != tuple: return False
-    f = getattr(t, '_fields', None)
-    if not isinstance(f, tuple): return False
-    return all(type(n)==str for n in f)

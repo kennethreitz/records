@@ -99,7 +99,6 @@ class Database(object):
     """A Database connection."""
 
     def __init__(self, db_url=None, cursor_factory=NamedTupleCursor):
-
         # If no db_url was provided, fallback to $DATABASE_URL.
         self.db_url = db_url or DATABASE_URL
         self.cursor_factory = cursor_factory
@@ -112,6 +111,12 @@ class Database(object):
 
         # Enable hstore if it's available.
         self._enable_hstore()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        pass
 
     def _enable_hstore(self):
         try:

@@ -5,13 +5,119 @@ from datetime import datetime
 
 import tablib
 import psycopg2
-from psycopg2.extras import register_hstore, RealDictCursor, NamedTupleCursor
+from psycopg2.extras import register_hstore, RealDictCursor
+from psycopg2.extensions import cursor as _cursor
 
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'"
 PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
+
+
+
+
+
+class NamedTupleCursor(_cursor):
+    """A cursor that generates results as `~collections.namedtuple`.
+
+    `!fetch*()` methods will return named tuples instead of regular tuples, so
+    their elements can be accessed both as regular numeric items as well as
+    attributes.
+
+        >>> nt_cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+        >>> rec = nt_cur.fetchone()
+        >>> rec
+        Record(id=1, num=100, data="abc'def")
+        >>> rec[1]
+        100
+        >>> rec.data
+        "abc'def"
+    """
+    Record = None
+
+    def execute(self, query, vars=None):
+        self.Record = None
+        return super(NamedTupleCursor, self).execute(query, vars)
+
+    def executemany(self, query, vars):
+        self.Record = None
+        return super(NamedTupleCursor, self).executemany(query, vars)
+
+    def callproc(self, procname, vars=None):
+        self.Record = None
+        return super(NamedTupleCursor, self).callproc(procname, vars)
+
+    def fetchone(self):
+        t = super(NamedTupleCursor, self).fetchone()
+        if t is not None:
+            nt = self.Record
+            if nt is None:
+                nt = self.Record = self._make_nt()
+            return nt._make(t)
+
+    def fetchmany(self, size=None):
+        ts = super(NamedTupleCursor, self).fetchmany(size)
+        nt = self.Record
+        if nt is None:
+            nt = self.Record = self._make_nt()
+        return map(nt._make, ts)
+
+    def fetchall(self):
+        ts = super(NamedTupleCursor, self).fetchall()
+        nt = self.Record
+        if nt is None:
+            nt = self.Record = self._make_nt()
+        return map(nt._make, ts)
+
+    def __iter__(self):
+        it = super(NamedTupleCursor, self).__iter__()
+        t = it.next()
+
+        nt = self.Record
+        if nt is None:
+            nt = self.Record = self._make_nt()
+
+        yield nt._make(t)
+
+        while 1:
+            yield nt._make(it.next())
+
+    try:
+        from collections import namedtuple
+    except ImportError, _exc:
+        def _make_nt(self):
+            raise self._exc
+    else:
+        def _make_nt(self, namedtuple=namedtuple):
+            RecordBase = namedtuple("Record", [d[0] for d in self.description or ()])
+
+            class Record(RecordBase):
+                def keys(self):
+                    return self._fields
+
+                def __getitem__(self, key):
+                    if isinstance(key, int):
+                        return super(RecordBase, self).__getitem__(key)
+
+                    if key in self.keys():
+                        return getattr(self, key)
+
+                    raise KeyError("Record contains no '{}' field.".format(key))
+
+                def get(self, key, default=None):
+                    try:
+                        return self[key]
+                    except KeyError:
+                        return default
+
+            return Record
+
+
+
+
+
+
 
 
 class ResultSet(object):

@@ -1,0 +1,26 @@
+#!/usr/bin/python
+import sys
+import records
+import argparse
+
+
+def support():
+	print """use: 
+  $ records [additional options]
+
+  -p/--path  (path) - The path to the database file .sql. Example 'path/test.sql'
+  -h/--host  (host) - It's used to connect to a database, the default 'localhost'
+  -n/--name  (db_name) - Select database with name 'db_name'
+  -u/--user  (user) - User to connect to the database 'db_name'
+  -f/--format  [html | json | csv | yaml | xls] - The format of the output data from the table
+  -o/--output  (file_name) - Output information in a file with name 'file_name'
+	"""
+
+
+if __name__ == "__main__":
+	if len(sys.argv) == 1:
+		support()
+		exit()
+
+	#db = records.Database("host='localhost' dbname='test' user='test_user' password='123456789'")
+	#rows = db.query("select * from users")

@@ -24,10 +24,9 @@ class ResultSet(object):
         return '<ResultSet {:o}>'.format(id(self))
 
     def __iter__(self):
-        '''
-        Starts by returning the cached items and then consumes the
+        """Starts by returning the cached items and then consumes the
         generator in case it is not fully consumed.
-        '''
+        """
         if self._all_rows:
             for row in self._all_rows:
                 yield row
@@ -46,7 +45,7 @@ class ResultSet(object):
             self._all_rows.append(nextrow)
             return nextrow
         except StopIteration:
-            raise StopIteration("ResultSet contains no more rows.")
+            raise StopIteration('ResultSet contains no more rows.')
 
     def __getitem__(self, key):
 

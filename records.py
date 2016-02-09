@@ -5,7 +5,7 @@ from datetime import datetime
 
 import tablib
 import psycopg2
-from psycopg2.extras import register_hstore, RealDictCursor
+from psycopg2.extras import register_hstore, NamedTupleCursor
 from psycopg2.extensions import cursor as _cursor
 
 
@@ -18,7 +18,7 @@ PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
 
 
 
-class NamedTupleCursor(_cursor):
+class BetterNamedTupleCursor(NamedTupleCursor):
     """A cursor that generates results as `~collections.namedtuple`.
 
     `!fetch*()` methods will return named tuples instead of regular tuples, so
@@ -34,55 +34,6 @@ class NamedTupleCursor(_cursor):
         >>> rec.data
         "abc'def"
     """
-    Record = None
-
-    def execute(self, query, vars=None):
-        self.Record = None
-        return super(NamedTupleCursor, self).execute(query, vars)
-
-    def executemany(self, query, vars):
-        self.Record = None
-        return super(NamedTupleCursor, self).executemany(query, vars)
-
-    def callproc(self, procname, vars=None):
-        self.Record = None
-        return super(NamedTupleCursor, self).callproc(procname, vars)
-
-    def fetchone(self):
-        t = super(NamedTupleCursor, self).fetchone()
-        if t is not None:
-            nt = self.Record
-            if nt is None:
-                nt = self.Record = self._make_nt()
-            return nt._make(t)
-
-    def fetchmany(self, size=None):
-        ts = super(NamedTupleCursor, self).fetchmany(size)
-        nt = self.Record
-        if nt is None:
-            nt = self.Record = self._make_nt()
-        return map(nt._make, ts)
-
-    def fetchall(self):
-        ts = super(NamedTupleCursor, self).fetchall()
-        nt = self.Record
-        if nt is None:
-            nt = self.Record = self._make_nt()
-        return map(nt._make, ts)
-
-    def __iter__(self):
-        it = super(NamedTupleCursor, self).__iter__()
-        t = it.next()
-
-        nt = self.Record
-        if nt is None:
-            nt = self.Record = self._make_nt()
-
-        yield nt._make(t)
-
-        while 1:
-            yield nt._make(it.next())
-
     try:
         from collections import namedtuple
     except ImportError, _exc:
@@ -204,17 +155,16 @@ class ResultSet(object):
 class Database(object):
     """A Database connection."""
 
-    def __init__(self, db_url=None, cursor_factory=NamedTupleCursor):
+    def __init__(self, db_url=None):
 
         # If no db_url was provided, fallback to $DATABASE_URL.
         self.db_url = db_url or DATABASE_URL
-        self.cursor_factory = cursor_factory
 
         if not self.db_url:
             raise ValueError('You must provide a db_url.')
 
         # Connect to the database.
-        self.db = psycopg2.connect(self.db_url, cursor_factory=self.cursor_factory)
+        self.db = psycopg2.connect(self.db_url, cursor_factory=BetterNamedTupleCursor)
 
         # Enable hstore if it's available.
         self._enable_hstore()

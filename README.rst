@@ -20,8 +20,6 @@ We know how to write SQL, so let's send some to our database:
 ☤ The Basics
 ------------
 
-Rows are represented as standard Python dictionaries: ``{'column-name': 'value'}``.
-
 Grab one row at a time:
 
 .. code:: python

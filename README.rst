@@ -14,7 +14,7 @@ We know how to write SQL, so let's send some to our database:
 
     import records
 
-    db = records.Database('postgres://...')
+    db = records.Database('host="" dbname="" user="" password=""')
     rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
 ☤ The Basics

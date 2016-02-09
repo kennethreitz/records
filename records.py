@@ -50,7 +50,10 @@ class ResultSet(object):
 
     def __getitem__(self, key):
         # Convert ResultSet[1] into slice.
+        is_int = False
+
         if isinstance(key, int):
+            is_int = True
             key = slice(key, key + 1, None)
 
         while len(self._all_rows) < key.stop:
@@ -60,7 +63,7 @@ class ResultSet(object):
                 break
 
         item = self._all_rows[key]
-        item = item[0] if len(item) == 1 else item
+        item = item[0] if is_int else item
 
         return item
 

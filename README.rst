@@ -32,7 +32,7 @@ Or iterate over them:
 .. code:: python
 
     for r in rows:
-        spam_user(name=r.name, email=r.user_email])
+        spam_user(name=r.name, email=r.user_email)
 
 Or store them all for later reference:
 

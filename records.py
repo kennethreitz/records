@@ -5,7 +5,7 @@ from datetime import datetime
 
 import tablib
 import psycopg2
-from psycopg2.extras import register_hstore, RealDictCursor
+from psycopg2.extras import register_hstore, RealDictCursor, NamedTupleCursor
 
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -48,6 +48,22 @@ class ResultSet(object):
         except StopIteration:
             raise StopIteration("ResultSet contains no more rows.")
 
+    def __getitem__(self, key):
+        # Convert ResultSet[1] into slice.
+        if isinstance(key, int):
+            key = slice(key, key + 1, None)
+
+        while len(self._all_rows) < key.stop:
+            try:
+                next(self)
+            except StopIteration:
+                break
+
+        item = self._all_rows[key]
+        item = item[0] if len(item) == 1 else item
+
+        return item
+
     @property
     def dataset(self):
         """A Tablib Dataset representation of the ResultSet."""
@@ -84,7 +100,7 @@ class ResultSet(object):
 class Database(object):
     """A Database connection."""
 
-    def __init__(self, db_url=None, cursor_factory=RealDictCursor):
+    def __init__(self, db_url=None, cursor_factory=NamedTupleCursor):
 
         # If no db_url was provided, fallback to $DATABASE_URL.
         self.db_url = db_url or DATABASE_URL
@@ -94,8 +110,7 @@ class Database(object):
             raise ValueError('You must provide a db_url.')
 
         # Connect to the database.
-        self.db = psycopg2.connect(self.db_url,
-                                   cursor_factory=self.cursor_factory)
+        self.db = psycopg2.connect(self.db_url, cursor_factory=self.cursor_factory)
 
         # Enable hstore if it's available.
         self._enable_hstore()
@@ -156,9 +171,10 @@ class Database(object):
 
 def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""
-    for i in range(len(row)):
-        if isinstance(row[i], datetime):
-            row[i] = '{}'.format(row[i])
+    # for i in range(len(row)):
+    #     if isinstance(row[i], datetime):
+    #         row[i] = '{}'.format(row[i])
+    # return row
     return row
 
 def _isnamedtupleinstance(x):

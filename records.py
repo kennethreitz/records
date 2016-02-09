@@ -44,6 +44,7 @@ class BetterNamedTupleCursor(NamedTupleCursor):
             RecordBase = namedtuple("Record", [d[0] for d in self.description or ()])
 
             class Record(RecordBase):
+                __slots__ = ()
                 def keys(self):
                     return self._fields
 
@@ -55,6 +56,20 @@ class BetterNamedTupleCursor(NamedTupleCursor):
                         return getattr(self, key)
 
                     raise KeyError("Record contains no '{}' field.".format(key))
+
+                @property
+                def dataset(self):
+                    data = tablib.Dataset()
+
+                    data.headers = self._fields
+                    row = _reduce_datetimes(self)
+                    data.append(row)
+
+                    return data
+
+                def export(self, format, **kwargs):
+                    return self.dataset.export(format, **kwargs)
+
 
                 def get(self, key, default=None):
                     try:
@@ -76,9 +91,25 @@ class ResultSet(object):
     def __init__(self, rows):
         self._rows = rows
         self._all_rows = []
+        self.pending = True
 
     def __repr__(self):
-        return '<ResultSet {:o}>'.format(id(self))
+        r = '<ResultSet size={} pending={}>'.format(self.size, self.pending)
+
+        if not self._all_rows:
+            return r
+
+        for i in range(5):
+            try:
+                r += '\n - {}'.format(self._all_rows[i])
+            except IndexError:
+                break
+        more = len(self._all_rows) - i
+        if more:
+            r += '\n   ({} more)'.format(more)
+        r += '\n</ResultSet>'
+
+        return r
 
     def __iter__(self):
         """Starts by returning the cached items and then consumes the
@@ -102,6 +133,7 @@ class ResultSet(object):
             self._all_rows.append(nextrow)
             return nextrow
         except StopIteration:
+            self.pending = False
             raise StopIteration('ResultSet contains no more rows.')
 
     def __getitem__(self, key):
@@ -120,9 +152,18 @@ class ResultSet(object):
                 break
 
         item = self._all_rows[key]
-        item = item[0] if is_int else item
+        if not is_int:
+            r = ResultSet(self._rows)
+            r._all_rows = item
+            item = r
+        else:
+            item = item[0]
 
         return item
+
+    @property
+    def size(self):
+        return len(self._all_rows)
 
     def export(self, format, **kwargs):
         """Export the ResultSet to a given format (courtesy of Tablib)."""

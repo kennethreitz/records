@@ -210,6 +210,12 @@ class Database(object):
         # Enable hstore if it's available.
         self._enable_hstore()
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc, val, traceback):
+        self.db.close()
+
     def _enable_hstore(self):
         try:
             register_hstore(self.db)

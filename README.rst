@@ -26,22 +26,22 @@ Grab one row at a time:
 
 .. code:: python
 
-    >>> rows.next()
-    {'username': 'model-t', 'name': 'Henry Ford', 'active': True, 'timezone': datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), 'user_email': 'model-t@gmail.com'}
+    >>> rows[0]
+    Record(username='model-t', name='Henry Ford', active=True, timezone=datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), user_email=model-t@gmail.com')
 
 Or iterate over them:
 
 .. code:: python
 
-    for row in rows:
-        spam_user(name=row['name'], email=row['user_email'])
+    for r in rows:
+        spam_user(name=r.name, email=r.user_email])
 
 Or store them all for later reference:
 
 .. code:: python
 
     >>> rows.all()
-    [{'username': ...}, {'username': ...}, {'username': ...}, ...]
+    [Record(username=...), Record(username=...), Record(username=...), ...]
 
 ☤ Features
 ----------
@@ -76,7 +76,7 @@ Excellent for sharing data with friends, or generating reports.
 
   .. code:: pycon
 
-      >>> print rows.dataset.csv
+      >>> print rows.export('csv')
       username,active,name,user_email,timezone
       model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
       ...
@@ -85,7 +85,7 @@ Excellent for sharing data with friends, or generating reports.
 
   .. code:: python
 
-      >>> print rows.dataset.yaml
+      >>> print rows.export('yaml')
       - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
       ...
 
@@ -93,7 +93,7 @@ Excellent for sharing data with friends, or generating reports.
 
   .. code:: python
 
-      >>> print rows.dataset.json
+      >>> print rows.export('yaml')
       [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
 - Microsoft Excel (xls, xlsx)
@@ -101,10 +101,10 @@ Excellent for sharing data with friends, or generating reports.
   .. code:: python
 
       with open('report.xls', 'wb') as f:
-          f.write(rows.dataset.xls)
+          f.write(rows.export('xls'))
 
-You get the point. All other features of Tablib are also available, 
-so you can sort results, add/remove columns/rows, remove duplicates, 
+You get the point. All other features of Tablib are also available,
+so you can sort results, add/remove columns/rows, remove duplicates,
 transpose the table, add separators, slice data by column, and more.
 
 See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_

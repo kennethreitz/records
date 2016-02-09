@@ -94,7 +94,7 @@ class ResultSet(object):
         self.pending = True
 
     def __repr__(self):
-        r = '<ResultSet size={} pending={}>'.format(self.size, self.pending)
+        r = '<ResultSet size={} pending={}>'.format(self.__len__(), self.pending)
 
         if not self._all_rows:
             return r
@@ -161,8 +161,7 @@ class ResultSet(object):
 
         return item
 
-    @property
-    def size(self):
+    def __len__(self):
         return len(self._all_rows)
 
     def export(self, format, **kwargs):

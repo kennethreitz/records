@@ -49,14 +49,15 @@ class ResultSet(object):
             raise StopIteration("ResultSet contains no more rows.")
 
     def __getitem__(self, key):
-        # Convert ResultSet[1] into slice.
+
         is_int = False
 
+        # Convert ResultSet[1] into slice.
         if isinstance(key, int):
             is_int = True
             key = slice(key, key + 1, None)
 
-        while len(self._all_rows) < key.stop:
+        while len(self._all_rows) < key.stop or key.stop is None:
             try:
                 next(self)
             except StopIteration:
@@ -67,6 +68,10 @@ class ResultSet(object):
 
         return item
 
+    def export(self, format, **kwargs):
+        """Export the ResultSet to a given format (courtesy of Tablib)."""
+        return self.dataset.export(format, **kwargs)
+
     @property
     def dataset(self):
         """A Tablib Dataset representation of the ResultSet."""
@@ -74,21 +79,12 @@ class ResultSet(object):
         data = tablib.Dataset()
 
         # Set the column names as headers on Tablib Dataset.
-        first = self.all()[0]
-        if isinstance(first, dict):
-            data.headers = self.all()[0].keys()
-            # Take each row, string-ify datetimes, insert into Tablib Dataset.
-            for row in self.all():
-                row = _reduce_datetimes([v for k, v in row.items()])
-                data.append(row)
-        elif _isnamedtupleinstance(first):
-            data.headers = first._fields
-            for row in self.all():
-                row = _reduce_datetimes(row)
-                data.append(row)
-        else:
-            raise Exception('Unsupported cursor type')
+        first = self[0]
 
+        data.headers = first._fields
+        for row in self.all():
+            row = _reduce_datetimes(row)
+            data.append(row)
 
         return data
 
@@ -174,10 +170,9 @@ class Database(object):
 
 def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""
-    # for i in range(len(row)):
-    #     if isinstance(row[i], datetime):
-    #         row[i] = '{}'.format(row[i])
-    # return row
+    for i in range(len(row)):
+        if hasattr(row[i], 'isoformat'):
+            row = row._replace(**{row._fields[0]: row[i].isoformat()})
     return row
 
 def _isnamedtupleinstance(x):

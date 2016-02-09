@@ -36,9 +36,9 @@ class ResultSet(object):
             yield row
         self._completed = True
 
-    def next(self):
+    def __next__(self):
         try:
-            return self._rows.next()
+            return next(self._rows)
         except StopIteration:
             raise StopIteration("ResultSet contains no more rows.")
 

@@ -36,6 +36,9 @@ class ResultSet(object):
             yield row
         self._completed = True
 
+    def next(self):
+        return self.__next__()
+
     def __next__(self):
         try:
             return next(self._rows)

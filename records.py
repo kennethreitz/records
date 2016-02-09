@@ -36,7 +36,7 @@ class BetterNamedTupleCursor(NamedTupleCursor):
     """
     try:
         from collections import namedtuple
-    except ImportError, _exc:
+    except ImportError as _exc:
         def _make_nt(self):
             raise self._exc
     else:

@@ -94,7 +94,7 @@ class ResultSet(object):
         self.pending = True
 
     def __repr__(self):
-        r = '<ResultSet size={} pending={}>'.format(self.__len__(), self.pending)
+        r = '<ResultSet size={} pending={}>'.format(len(self), self.pending)
 
         if not self._all_rows:
             return r

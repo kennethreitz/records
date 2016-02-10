@@ -11,11 +11,22 @@ from psycopg2.extensions import cursor as _cursor
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
-PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'"
-PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
+PG_TABLES_QUERY = """
+    SELECT
+        *
+    FROM
+        pg_catalog.pg_tables
+    WHERE
+        schemaname != 'pg_catalog' AND
+        schemaname != 'information_schema'
+"""
 
-
-
+PG_INTERNAL_TABLES_QUERY = """
+    SELECT
+        *
+    FROM
+        pg_catalog.pg_tables
+"""
 
 
 class BetterNamedTupleCursor(NamedTupleCursor):
@@ -41,10 +52,14 @@ class BetterNamedTupleCursor(NamedTupleCursor):
             raise self._exc
     else:
         def _make_nt(self, namedtuple=namedtuple):
-            RecordBase = namedtuple("Record", [d[0] for d in self.description or ()])
+            RecordBase = namedtuple(
+                "Record",
+                [d[0] for d in self.description or ()]
+            )
 
             class Record(RecordBase):
                 __slots__ = ()
+
                 def keys(self):
                     return self._fields
 
@@ -55,7 +70,9 @@ class BetterNamedTupleCursor(NamedTupleCursor):
                     if key in self.keys():
                         return getattr(self, key)
 
-                    raise KeyError("Record contains no '{}' field.".format(key))
+                    raise KeyError(
+                        "Record contains no '{}' field.".format(key)
+                    )
 
                 @property
                 def dataset(self):
@@ -70,7 +87,6 @@ class BetterNamedTupleCursor(NamedTupleCursor):
                 def export(self, format, **kwargs):
                     return self.dataset.export(format, **kwargs)
 
-
                 def get(self, key, default=None):
                     try:
                         return self[key]
@@ -78,12 +94,6 @@ class BetterNamedTupleCursor(NamedTupleCursor):
                         return default
 
             return Record
-
-
-
-
-
-
 
 
 class ResultSet(object):
@@ -185,13 +195,13 @@ class ResultSet(object):
 
         return data
 
-
     def all(self):
         """Returns a list of all rows for the ResultSet. If they haven't
         been fetched yet, consume the iterator and cache the results."""
 
         # By calling list it calls the __iter__ method
         return list(self)
+
 
 class Database(object):
     """A Database connection."""
@@ -205,7 +215,10 @@ class Database(object):
             raise ValueError('You must provide a db_url.')
 
         # Connect to the database.
-        self.db = psycopg2.connect(self.db_url, cursor_factory=BetterNamedTupleCursor)
+        self.db = psycopg2.connect(
+            self.db_url,
+            cursor_factory=BetterNamedTupleCursor
+        )
 
         # Enable hstore if it's available.
         self._enable_hstore()
@@ -263,6 +276,7 @@ class Database(object):
 
         # Defer processing to self.query method.
         return self.query(query=query, params=params, fetchall=fetchall)
+
 
 def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""

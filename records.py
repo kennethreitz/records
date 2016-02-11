@@ -81,16 +81,21 @@ class ResultSet(object):
         self.pending = True
 
     def __repr__(self):
-        r = '<ResultSet size={} pending={}>'.format(self.size, self.pending)
+        r = '<ResultSet size={} pending={}>'.format(len(self), self.pending)
         return r
 
     def __iter__(self):
-        """Iterate over all rows, consuming the underlying generator only when necessary."""
+        """Iterate over all rows, consuming the underlying generator
+        only when necessary."""
         i = 0
         while True:
-            # Other code may have iterated between yields, so always check the cache.
-            if i < len(self._all_rows): yield self._all_rows[i]
-            else: yield next(self)  # Throws StopIteration when done.
+            # Other code may have iterated between yields,
+            # so always check the cache.
+            if i < len(self):
+                yield self._all_rows[i]
+            else:
+                # Throws StopIteration when done.
+                yield next(self)
             i += 1
 
 
@@ -131,8 +136,7 @@ class ResultSet(object):
 
         return item
 
-    @property
-    def size(self):
+    def __len__(self):
         return len(self._all_rows)
 
     def export(self, format, **kwargs):
@@ -181,8 +185,8 @@ class Database(object):
         self._enable_hstore()
         self.open = True
 
-    # Closes the connection manually
     def close(self):
+        """Closes the connection to the Database."""
         self.db.close()
         self.open = False
 
@@ -193,6 +197,7 @@ class Database(object):
         self.close()
 
     def _enable_hstore(self):
+        """Enables HSTORE support, if available."""
         try:
             register_hstore(self.db)
         except psycopg2.ProgrammingError:

@@ -16,7 +16,7 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 requires = ['psycopg2', 'tablib']
-version = '0.1.0'
+version = '0.2.0'
 
 def read(f):
     return open(f, encoding='utf-8').read()

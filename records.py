@@ -92,7 +92,7 @@ class ResultSet(object):
             # Other code may have iterated between yields,
             # so always check the cache.
             if i < len(self):
-                yield self._all_rows[i]
+                yield self[i]
             else:
                 # Throws StopIteration when done.
                 yield next(self)
@@ -120,7 +120,7 @@ class ResultSet(object):
             is_int = True
             key = slice(key, key + 1, None)
 
-        while len(self._all_rows) < key.stop or key.stop is None:
+        while len(self) < key.stop or key.stop is None:
             try:
                 next(self)
             except StopIteration:

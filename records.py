@@ -53,8 +53,8 @@ class RecordsCursor(NamedTupleCursor):
                 def dataset(self):
                     """A Tablib Dataset containing the row."""
                     data = tablib.Dataset()
-
                     data.headers = self._fields
+
                     row = _reduce_datetimes(self)
                     data.append(row)
 
@@ -112,7 +112,6 @@ class ResultSet(object):
             raise StopIteration('ResultSet contains no more rows.')
 
     def __getitem__(self, key):
-
         is_int = isinstance(key, int)
 
         # Convert ResultSet[1] into slice.
@@ -166,7 +165,6 @@ class Database(object):
     """A Database connection."""
 
     def __init__(self, db_url=None):
-
         # If no db_url was provided, fallback to $DATABASE_URL.
         self.db_url = db_url or DATABASE_URL
 
@@ -222,7 +220,7 @@ class Database(object):
         # Row-by-row result generator.
         row_gen = (r for r in c)
 
-        # Convert psycopg2 results to ResultSet
+        # Convert psycopg2 results to ResultSet.
         results = ResultSet(row_gen)
 
         # Fetch all results if desired.
@@ -274,7 +272,7 @@ Supported Formats:
    csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
 
    Note: xls, xlsx, dbf, and ods formats are binary, and should only be
-         used with piped output e.g. '$ records sql xls > sql.xls'.
+         used with redirected output e.g. '$ records sql xls > sql.xls'.
 
 Notes:
   - While you may specify a Postgres connection string with --url, records
@@ -291,5 +289,34 @@ from docopt import docopt
 
 
 if __name__ == '__main__':
+    # Parse the command-line arguments.
     arguments = docopt(cli_docs)
-    print(arguments)
+
+    # Create the Database.
+    db = Database(arguments['--url'])
+
+    query = arguments['<query>']
+
+    # Execute the query, if it is a found file.
+    if os.path.isfile(query):
+        rows = db.query_file(query)
+
+    # Execute the query, if it appears to be a query string.
+    elif len(query.split()) > 2:
+        rows = db.query(query)
+
+    # Otherwise, say the file wasn't found.
+    else:
+        print('The given query could not be found.')
+        exit(66)
+
+    # Print results in desired format.
+    if arguments['<format>']:
+        print(rows.export(arguments['<format>']))
+    else:
+        print(rows.dataset)
+
+
+
+
+

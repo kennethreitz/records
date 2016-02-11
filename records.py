@@ -192,9 +192,7 @@ class Database(object):
         self.close()
 
     def __repr__(self):
-        status = 'Open' if self.open else 'Closed'
-        r = '{}(url={}, status={})'.format(self.__class__.__name__, self.db_url, status)
-        return r
+        return '<Database open={}>'.format(self.open)
 
     def _enable_hstore(self):
         """Enables HSTORE support, if available."""

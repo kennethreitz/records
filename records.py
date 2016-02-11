@@ -82,10 +82,6 @@ class BetterNamedTupleCursor(NamedTupleCursor):
 
 
 
-
-
-
-
 class ResultSet(object):
     """A set of results from a query."""
     def __init__(self, rows):
@@ -95,20 +91,6 @@ class ResultSet(object):
 
     def __repr__(self):
         r = '<ResultSet size={} pending={}>'.format(self.size, self.pending)
-
-        if not self._all_rows:
-            return r
-
-        for i in range(5):
-            try:
-                r += '\n - {}'.format(self._all_rows[i])
-            except IndexError:
-                break
-        more = len(self._all_rows) - i
-        if more:
-            r += '\n   ({} more)'.format(more)
-        r += '\n</ResultSet>'
-
         return r
 
     def __iter__(self):

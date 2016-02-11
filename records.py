@@ -113,12 +113,11 @@ class ResultSet(object):
 
     def __getitem__(self, key):
 
-        is_int = False
+        is_int = isinstance(key, int)
 
         # Convert ResultSet[1] into slice.
-        if isinstance(key, int):
-            is_int = True
-            key = slice(key, key + 1, None)
+        if is_int:
+            key = slice(key, key + 1)
 
         while len(self) < key.stop or key.stop is None:
             try:
@@ -126,15 +125,11 @@ class ResultSet(object):
             except StopIteration:
                 break
 
-        item = self._all_rows[key]
-        if not is_int:
-            r = ResultSet(self._rows)
-            r._all_rows = item
-            item = r
+        rows = self._all_rows[key]
+        if is_int:
+            return rows[0]
         else:
-            item = item[0]
-
-        return item
+            return ResultSet(iter(rows))
 
     def __len__(self):
         return len(self._all_rows)

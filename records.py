@@ -18,22 +18,8 @@ PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
 
 
 
-class BetterNamedTupleCursor(NamedTupleCursor):
-    """A cursor that generates results as `~collections.namedtuple`.
-
-    `!fetch*()` methods will return named tuples instead of regular tuples, so
-    their elements can be accessed both as regular numeric items as well as
-    attributes.
-
-        >>> nt_cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
-        >>> rec = nt_cur.fetchone()
-        >>> rec
-        Record(id=1, num=100, data="abc'def")
-        >>> rec[1]
-        100
-        >>> rec.data
-        "abc'def"
-    """
+class RecordsCursor(NamedTupleCursor):
+    """An enhanced cursor that generates Records."""
     try:
         from collections import namedtuple
     except ImportError as _exc:
@@ -43,6 +29,7 @@ class BetterNamedTupleCursor(NamedTupleCursor):
         def _make_nt(self, namedtuple=namedtuple):
             RecordBase = namedtuple("Record", [d[0] for d in self.description or ()])
 
+            # Extend the RecordsBase namedtupe, for enhanced API functionality.
             class Record(RecordBase):
                 __slots__ = ()
                 def keys(self):
@@ -59,6 +46,7 @@ class BetterNamedTupleCursor(NamedTupleCursor):
 
                 @property
                 def dataset(self):
+                    """A Tablib Dataset containing the row."""
                     data = tablib.Dataset()
 
                     data.headers = self._fields
@@ -68,8 +56,8 @@ class BetterNamedTupleCursor(NamedTupleCursor):
                     return data
 
                 def export(self, format, **kwargs):
+                    """Exports the row to the given format."""
                     return self.dataset.export(format, **kwargs)
-
 
                 def get(self, key, default=None):
                     try:
@@ -78,8 +66,6 @@ class BetterNamedTupleCursor(NamedTupleCursor):
                         return default
 
             return Record
-
-
 
 
 class ResultSet(object):
@@ -187,7 +173,7 @@ class Database(object):
             raise ValueError('You must provide a db_url.')
 
         # Connect to the database.
-        self.db = psycopg2.connect(self.db_url, cursor_factory=BetterNamedTupleCursor)
+        self.db = psycopg2.connect(self.db_url, cursor_factory=RecordsCursor)
 
         # Enable hstore if it's available.
         self._enable_hstore()

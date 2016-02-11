@@ -85,17 +85,14 @@ class ResultSet(object):
         return r
 
     def __iter__(self):
-        """Starts by returning the cached items and then consumes the
-        generator in case it is not fully consumed.
-        """
-        if self._all_rows:
-            for row in self._all_rows:
-                yield row
-        try:
-            while True:
-                yield self.__next__()
-        except StopIteration:
-            pass
+        """Iterate over all rows, consuming the underlying generator only when necessary."""
+        i = 0
+        while True:
+            # Other code may have iterated between yields, so always check the cache.
+            if i < len(self._all_rows): yield self._all_rows[i]
+            else: yield next(self)  # Throws StopIteration when done.
+            i += 1
+
 
     def next(self):
         return self.__next__()

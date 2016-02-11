@@ -257,3 +257,41 @@ def _reduce_datetimes(row):
         if hasattr(row[i], 'isoformat'):
             row = row._replace(**{row._fields[0]: row[i].isoformat()})
     return row
+
+
+cli_docs ="""Records: SQL for Humans™
+A Kenneth Reitz project.
+
+Usage:
+  records <query> [<format>] [--url=<url>] [--params <params>...]
+  records (-h | --help)
+
+Options:
+  -h --help    Show this screen.
+  --url=<url>  The database URL to use. Defaults to $DATABASE_URL.
+  --params     Prameterized query. Subsequent arguments are treated as
+               parameters to the query.
+
+Supported Formats:
+   csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
+
+   Note: xls, xlsx, dbf, and ods formats are binary, and should only be
+         used with piped output e.g. '$ records sql xls > sql.xls'.
+
+Notes:
+  - While you may specify a Postgres connection string with --url, records
+    will automatically default to the value of $DATABASE_URL, if available.
+  - Query is intended to be the path of a SQL file, however a query string
+    can be provided instead. Use this feature discernfully; it's dangerous.
+  - Records is intended for report-style exports of database queries, and
+    has not yet been optimized for extremely large data dumps.
+
+Cake:
+   ✨ 🍰 ✨
+"""
+from docopt import docopt
+
+
+if __name__ == '__main__':
+    arguments = docopt(cli_docs)
+    print(arguments)

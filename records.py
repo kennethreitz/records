@@ -34,7 +34,7 @@ class RecordsCursor(NamedTupleCursor):
         def _make_nt(self, namedtuple=namedtuple):
             RecordBase = namedtuple("Record", [d[0] for d in self.description or ()])
 
-            # Extend the RecordsBase namedtupe, for enhanced API functionality.
+            # Extend the RecordsBase namedtuple, for enhanced API functionality.
             class Record(RecordBase):
                 __slots__ = ()
                 def keys(self):
@@ -92,7 +92,7 @@ class ResultSet(object):
             # Other code may have iterated between yields,
             # so always check the cache.
             if i < len(self):
-                yield self._all_rows[i]
+                yield self[i]
             else:
                 # Throws StopIteration when done.
                 yield next(self)
@@ -113,28 +113,23 @@ class ResultSet(object):
 
     def __getitem__(self, key):
 
-        is_int = False
+        is_int = isinstance(key, int)
 
         # Convert ResultSet[1] into slice.
-        if isinstance(key, int):
-            is_int = True
-            key = slice(key, key + 1, None)
+        if is_int:
+            key = slice(key, key + 1)
 
-        while len(self._all_rows) < key.stop or key.stop is None:
+        while len(self) < key.stop or key.stop is None:
             try:
                 next(self)
             except StopIteration:
                 break
 
-        item = self._all_rows[key]
-        if not is_int:
-            r = ResultSet(self._rows)
-            r._all_rows = item
-            item = r
+        rows = self._all_rows[key]
+        if is_int:
+            return rows[0]
         else:
-            item = item[0]
-
-        return item
+            return ResultSet(iter(rows))
 
     def __len__(self):
         return len(self._all_rows)
@@ -195,6 +190,9 @@ class Database(object):
 
     def __exit__(self, exc, val, traceback):
         self.close()
+
+    def __repr__(self):
+        return '<Database open={}>'.format(self.open)
 
     def _enable_hstore(self):
         """Enables HSTORE support, if available."""

@@ -179,6 +179,18 @@ class Database(object):
 
         # Enable hstore if it's available.
         self._enable_hstore()
+        self.open = True
+
+    # Closes the connection manually
+    def close(self):
+        self.db.close()
+        self.open = False
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc, val, traceback):
+        self.close()
 
     def _enable_hstore(self):
         try:

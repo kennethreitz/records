@@ -34,7 +34,7 @@ class RecordsCursor(NamedTupleCursor):
         def _make_nt(self, namedtuple=namedtuple):
             RecordBase = namedtuple("Record", [d[0] for d in self.description or ()])
 
-            # Extend the RecordsBase namedtupe, for enhanced API functionality.
+            # Extend the RecordsBase namedtuple, for enhanced API functionality.
             class Record(RecordBase):
                 __slots__ = ()
                 def keys(self):

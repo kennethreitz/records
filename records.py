@@ -11,11 +11,16 @@ from psycopg2.extensions import cursor as _cursor
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
-PG_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'"
 PG_INTERNAL_TABLES_QUERY = "SELECT * FROM pg_catalog.pg_tables"
-
-
-
+PG_TABLES_QUERY = """
+    SELECT
+        *
+    FROM
+        pg_catalog.pg_tables
+    WHERE
+        schemaname != 'pg_catalog' AND
+        schemaname != 'information_schema'
+"""
 
 
 class RecordsCursor(NamedTupleCursor):

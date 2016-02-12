@@ -48,6 +48,7 @@ Or store them all for later reference:
 - Iterated rows are cached for future reference.
 - ``$DATABASE_URL`` environment variable support.
 - Convenience ``Database.get_table_names`` method.
+- Command-line `records` tool for exporting queries. 
 - Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('life=%s', params=('42',))``
 - Queries can be passed as strings or filenames, parameters supported.
 - Query results are iterators of standard Python dictionaries: ``{'column-name': 'value'}``
@@ -115,6 +116,49 @@ Of course, the recommended installation method is pip::
 
     $ pip install records
     ✨🍰✨
+
+☤ Command-Line Tool
+-------------------
+
+As an added bonus, a `records` command-line tool is also included in
+this distribution. Here's the usage, so you get an idea of it:
+
+```
+Records: SQL for Humans™
+A Kenneth Reitz project.
+
+Usage:
+  records <query> <format> [-i] [--params <params>...] [--url=<url>]
+  records (-h | --help)
+
+Options:
+  -h --help         Show this screen.
+  --url=<url>       The database URL to use. Defaults to $DATABASE_URL.
+  --params          Prameterized query. Subsequent arguments are treated as
+                    parameters to the query.
+  -i --interactive  An interactive interpreter.
+
+Supported Formats:
+   csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
+
+   Note: xls, xlsx, dbf, and ods formats are binary, and should only be
+         used with redirected output e.g. '$ records sql xls > sql.xls'.
+
+Notes:
+  - While you may specify a Postgres connection string with --url, records
+    will automatically default to the value of $DATABASE_URL, if available.
+  - Query is intended to be the path of a SQL file, however a query string
+    can be provided instead. Use this feature discernfully; it's dangerous.
+  - Records is intended for report-style exports of database queries, and
+    has not yet been optimized for extremely large data dumps.
+  - Interactive mode is experimental and may be removed at any time.
+    Feedback, as always, is much appreciated!  --me@kennethreitz.org
+
+Cake:
+   ✨ 🍰 ✨
+```    
+
+
 
 ☤ Thank You
 -----------

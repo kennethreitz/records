@@ -121,37 +121,9 @@ Of course, the recommended installation method is pip::
 -------------------
 
 As an added bonus, a ``records`` command-line tool is automaticlaly
-included. Here's the usage information::
+included. Here's a screenshot of the usage information:
 
-    Records: SQL for Humans™
-    A Kenneth Reitz project.
-
-    Usage:
-      records <query> <format> [-i] [--params <params>...] [--url=<url>]
-      records (-h | --help)
-
-    Options:
-      -h --help         Show this screen.
-      --url=<url>       The database URL to use. Defaults to $DATABASE_URL.
-      --params          Prameterized query. Subsequent arguments are treated as
-                        parameters to the query.
-      -i --interactive  An interactive interpreter.
-
-    Supported Formats:
-       csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
-
-   Note: xls, xlsx, dbf, and ods formats are binary, and should only be
-         used with redirected output e.g. '$ records sql xls > sql.xls'.
-
-    Notes:
-      - While you may specify a Postgres connection string with --url, records
-        will automatically default to the value of $DATABASE_URL, if available.
-      - Query is intended to be the path of a SQL file, however a query string
-        can be provided instead. Use this feature discernfully; it's dangerous.
-      - Records is intended for report-style exports of database queries, and
-        has not yet been optimized for extremely large data dumps.
-      - Interactive mode is experimental and may be removed at any time.
-        Feedback, as always, is much appreciated!  --me@kennethreitz.org
+.. image: https://s3.amazonaws.com/f.cl.ly/items/1M0147110J3k0p2D3z2b/records.png?v=729fd472
 
 ☤ Thank You
 -----------

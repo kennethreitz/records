@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from code import interact
 from datetime import datetime
 
 import tablib
@@ -262,14 +263,15 @@ def cli():
 A Kenneth Reitz project.
 
 Usage:
-  records <query> <format> [--url=<url>] [--params <params>...]
+  records <query> <format> [-i] [--params <params>...] [--url=<url>]
   records (-h | --help)
 
 Options:
-  -h --help    Show this screen.
-  --url=<url>  The database URL to use. Defaults to $DATABASE_URL.
-  --params     Prameterized query. Subsequent arguments are treated as
-               parameters to the query.
+  -h --help         Show this screen.
+  --url=<url>       The database URL to use. Defaults to $DATABASE_URL.
+  --params          Prameterized query. Subsequent arguments are treated as
+                    parameters to the query.
+  -i --interactive  An interactive interpreter.
 
 Supported Formats:
    csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
@@ -284,14 +286,18 @@ Notes:
     can be provided instead. Use this feature discernfully; it's dangerous.
   - Records is intended for report-style exports of database queries, and
     has not yet been optimized for extremely large data dumps.
+  - Interactive mode is experimental and may be removed at any time.
+    Feedback, as always, is much appreciated!  --me@kennethreitz.org
 
 Cake:
    ✨ 🍰 ✨
     """
-    supported_formats = 'csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods'
+    supported_formats = 'csv tsv json yaml html xls xlsx dbf latex ods'.split()
 
     # Parse the command-line arguments.
     arguments = docopt(cli_docs)
+    # print arguments
+    # exit()
 
     # Cleanup docopt parsing errors.
     if arguments['--params'] and arguments['<format>'] not in supported_formats:
@@ -317,15 +323,22 @@ Cake:
         print('The given query could not be found.')
         exit(66)
 
+    # Interactive mode.
+    if arguments['--interactive']:
+        interactive_env = {'db': db, 'rows': rows}
+        interact(interactive_env, local=interactive_env)
+        exit()
+
     # Print results in desired format.
     if arguments['<format>']:
         print(rows.export(arguments['<format>']))
     else:
         print(rows.dataset)
 
-
+# Run the CLI when executed directly.
 if __name__ == '__main__':
     cli()
+
 
 
 

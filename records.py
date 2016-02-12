@@ -5,6 +5,7 @@ from datetime import datetime
 
 import tablib
 import psycopg2
+from docopt import docopt
 from psycopg2.extras import register_hstore, NamedTupleCursor
 from psycopg2.extensions import cursor as _cursor
 
@@ -213,6 +214,7 @@ class Database(object):
         can, optionally, be provided. Returns a ResultSet, which can be
         iterated over to get result rows as dictionaries.
         """
+
         # Execute the given query.
         c = self.db.cursor()
         c.execute(query, params)
@@ -255,11 +257,12 @@ def _reduce_datetimes(row):
     return row
 
 
-cli_docs ="""Records: SQL for Humans™
+def cli():
+    cli_docs ="""Records: SQL for Humans™
 A Kenneth Reitz project.
 
 Usage:
-  records <query> [<format>] [--url=<url>] [--params <params>...]
+  records <query> <format> [--url=<url>] [--params <params>...]
   records (-h | --help)
 
 Options:
@@ -284,26 +287,30 @@ Notes:
 
 Cake:
    ✨ 🍰 ✨
-"""
-from docopt import docopt
+    """
+    supported_formats = 'csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods'
 
-
-if __name__ == '__main__':
     # Parse the command-line arguments.
     arguments = docopt(cli_docs)
+
+    # Cleanup docopt parsing errors.
+    if arguments['--params'] and arguments['<format>'] not in supported_formats:
+        arguments['<params>'].insert(0, arguments['<format>'])
+        arguments['<format>'] = None
 
     # Create the Database.
     db = Database(arguments['--url'])
 
     query = arguments['<query>']
+    params = arguments['<params>']
 
     # Execute the query, if it is a found file.
     if os.path.isfile(query):
-        rows = db.query_file(query)
+        rows = db.query_file(query, params)
 
     # Execute the query, if it appears to be a query string.
     elif len(query.split()) > 2:
-        rows = db.query(query)
+        rows = db.query(query, params)
 
     # Otherwise, say the file wasn't found.
     else:
@@ -317,6 +324,8 @@ if __name__ == '__main__':
         print(rows.dataset)
 
 
+if __name__ == '__main__':
+    cli()
 
 
 

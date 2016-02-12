@@ -120,8 +120,8 @@ Of course, the recommended installation method is pip::
 ☤ Command-Line Tool
 -------------------
 
-As an added bonus, a `records` command-line tool is also included in
-this distribution. Here's the usage, so you get an idea of it::
+As an added bonus, a ``records`` command-line tool is automaticlaly
+included. Here's the usage information, so you get an idea of it::
 
     Records: SQL for Humans™
     A Kenneth Reitz project.

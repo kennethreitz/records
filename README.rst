@@ -153,12 +153,6 @@ this distribution. Here's the usage, so you get an idea of it::
       - Interactive mode is experimental and may be removed at any time.
         Feedback, as always, is much appreciated!  --me@kennethreitz.org
 
-Cake:
-   ✨ 🍰 ✨
-```    
-
-
-
 ☤ Thank You
 -----------
 

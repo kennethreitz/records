@@ -1,3 +1,9 @@
+v0.3.0 (02-11-2016)
+===================
+
+- New ``record`` command-line tool available!
+- Various improvements.
+
 v0.2.0 (02-10-2016)
 ===================
 

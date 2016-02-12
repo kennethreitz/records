@@ -51,7 +51,6 @@ Or store them all for later reference:
 - Command-line `records` tool for exporting queries. 
 - Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('life=%s', params=('42',))``
 - Queries can be passed as strings or filenames, parameters supported.
-- Query results are iterators of standard Python dictionaries: ``{'column-name': 'value'}``
 
 Records is proudly powered by `Psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
 and `Tablib <http://docs.python-tablib.org/en/latest/>`_.

@@ -123,7 +123,7 @@ Of course, the recommended installation method is pip::
 As an added bonus, a ``records`` command-line tool is automaticlaly
 included. Here's a screenshot of the usage information:
 
-.. image: https://s3.amazonaws.com/f.cl.ly/items/1M0147110J3k0p2D3z2b/records.png?v=729fd472
+.. image:: https://s3.amazonaws.com/f.cl.ly/items/1M0147110J3k0p2D3z2b/records.png?v=729fd472
 
 ☤ Thank You
 -----------

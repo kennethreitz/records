@@ -121,7 +121,7 @@ Of course, the recommended installation method is pip::
 -------------------
 
 As an added bonus, a ``records`` command-line tool is automaticlaly
-included. Here's the usage information, so you get an idea of it::
+included. Here's the usage information::
 
     Records: SQL for Humans™
     A Kenneth Reitz project.

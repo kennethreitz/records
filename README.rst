@@ -9,7 +9,7 @@ surprisingly difficult with the standard tools available.
 This library strives to make this workflow as simple as possible,
 while providing an elegant interface to work with your query results.
 
-*Database support includes Postgresql, MySQL, SQLite, Oracle, and MS-SQL (drivers not included).*
+*Database support includes Postgres, MySQL, SQLite, Oracle, and MS-SQL (drivers not included).*
 
 
 ☤ The Basics

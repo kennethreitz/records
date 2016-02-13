@@ -205,16 +205,16 @@ class RecordCollection(object):
 
         # Try to get a record, or return default.
         try:
-            record = next(self)
-        except StopIteration:
+            record = self[0]
+        except IndexError:
             if isexception(default):
                 raise default
             return default
 
         # Ensure that we don't have more than one row.
         try:
-            next(self)
-        except StopIteration:
+            self[1]
+        except IndexError:
             pass
         else:
             raise ValueError('RecordCollection contains too many rows.')

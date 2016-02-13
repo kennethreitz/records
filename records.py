@@ -72,6 +72,13 @@ class RecordsCursor(NamedTupleCursor):
                     except KeyError:
                         return default
 
+                def as_dict(self, ordered=False):
+                    """Returns the row as a dictionary, as ordered."""
+                    if ordered:
+                        return self._asdict()
+                    else:
+                        return dict(self._asdict())
+
             return Record
 
 
@@ -155,13 +162,19 @@ class ResultSet(object):
 
         return data
 
-
-    def all(self):
+    def all(self, as_dict=False, as_ordereddict=False):
         """Returns a list of all rows for the ResultSet. If they haven't
         been fetched yet, consume the iterator and cache the results."""
 
         # By calling list it calls the __iter__ method
-        return list(self)
+        rows = list(self)
+
+        if as_dict:
+            return [r.as_dict() for r in rows]
+        elif as_ordereddict:
+            return [r.as_dict(ordered=True) for r in rows]
+
+        return rows
 
 class Database(object):
     """A Database connection."""

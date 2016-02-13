@@ -76,6 +76,16 @@ class TestRecordCollection:
         rows = records.RecordCollection(IdRecord(i) for i in range(3))
         raises(ValueError, rows.one)
 
+    def test_one_raises_default_if_its_an_exception_subclass(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(1))
+        class Cheese(Exception): pass
+        raises(Cheese, rows.one, Cheese)
+
+    def test_one_raises_default_if_its_an_exception_instance(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(1))
+        class Cheese(Exception): pass
+        raises(Cheese, rows.one, Cheese('cheddar'))
+
 
 class TestRecord:
 

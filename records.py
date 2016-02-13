@@ -4,6 +4,7 @@ import os
 from code import interact
 from datetime import datetime
 from collections import OrderedDict
+from inspect import isclass
 
 import tablib
 from docopt import docopt
@@ -11,6 +12,17 @@ from sqlalchemy import text, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
+
+
+def isexception(obj):
+    """Given an object, return a boolean indicating whether it is an instance
+    or subclass of :py:class:`Exception`.
+    """
+    if isinstance(obj, Exception):
+        return True
+    if isclass(obj) and issubclass(obj, Exception):
+        return True
+    return False
 
 
 class Record(object):
@@ -195,6 +207,8 @@ class RecordCollection(object):
         try:
             record = next(self)
         except StopIteration:
+            if isexception(default):
+                raise default
             return default
 
         # Ensure that we don't have more than one row.

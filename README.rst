@@ -12,6 +12,9 @@ while providing an elegant interface to work with your query results.
 
 -------------------------------------
 
+
+☤ The Basics
+------------
 We know how to write SQL, so let's send some to our database:
 
 .. code:: python
@@ -21,8 +24,6 @@ We know how to write SQL, so let's send some to our database:
     db = records.Database('postgres://...')
     rows = db.query('select * from active_users')    # or db.query_file('sqls/active-users.sql')
 
-☤ The Basics
-------------
 
 Grab one row at a time:
 

@@ -302,7 +302,7 @@ Query Parameters:
     $ records 'select * from repos where language ~= :lang' lang=python
 
 Notes:
-  - While you may specify a Postgres connection string with --url, records
+  - While you may specify a database connection string with --url, records
     will automatically default to the value of $DATABASE_URL, if available.
   - Query is intended to be the path of a SQL file, however a query string
     can be provided instead. Use this feature discernfully; it's dangerous.

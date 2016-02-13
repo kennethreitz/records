@@ -10,6 +10,8 @@ while providing an elegant interface to work with your query results.
 
 *Database support includes Postgresql, MySQL, SQLite, Oracle, and MS-SQL (drivers not included).*
 
+-------------------------------------
+
 We know how to write SQL, so let's send some to our database:
 
 .. code:: python

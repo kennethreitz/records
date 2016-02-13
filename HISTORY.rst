@@ -1,3 +1,14 @@
+v0.4.0 (02-13-2016)
+===================
+
+- Refactored to be fully powered by SQLAlchemy!
+- Support for all major databases (thanks, SQLAlchemy!).
+- Support for non-alphanumeric column names.
+- New ``Record`` class, for representing/accessing result rows.
+- ``ResultSet`` renamed ``RecordCollection``.
+- Removed Interactive Mode from the CLI.
+
+
 v0.3.0 (02-11-2016)
 ===================
 

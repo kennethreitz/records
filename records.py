@@ -3,7 +3,7 @@
 import os
 from code import interact
 from datetime import datetime
-from collections import namedtuple, OrderedDict
+from collections import OrderedDict
 
 import tablib
 from docopt import docopt
@@ -316,8 +316,6 @@ Cake:
 
     # Parse the command-line arguments.
     arguments = docopt(cli_docs)
-    # print arguments
-    # exit()
 
     # Create the Database.
     db = Database(arguments['--url'])

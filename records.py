@@ -263,15 +263,14 @@ def cli():
 A Kenneth Reitz project.
 
 Usage:
-  records <query> <format> [-i] [--params <params>...] [--url=<url>]
+  records <query> <format> [--params <params>...] [--url=<url>]
   records (-h | --help)
 
 Options:
-  -h --help         Show this screen.
-  --url=<url>       The database URL to use. Defaults to $DATABASE_URL.
-  --params          Prameterized query. Subsequent arguments are treated as
-                    parameters to the query.
-  -i --interactive  An interactive interpreter.
+  -h --help     Show this screen.
+  --url=<url>   The database URL to use. Defaults to $DATABASE_URL.
+  --params      Parameterized query. Subsequent arguments are treated
+                as parameters to the query.
 
 Supported Formats:
    csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
@@ -286,8 +285,6 @@ Notes:
     can be provided instead. Use this feature discernfully; it's dangerous.
   - Records is intended for report-style exports of database queries, and
     has not yet been optimized for extremely large data dumps.
-  - Interactive mode is experimental and may be removed at any time.
-    Feedback, as always, is much appreciated!  --me@kennethreitz.org
 
 Cake:
    ✨ 🍰 ✨
@@ -296,19 +293,16 @@ Cake:
 
     # Parse the command-line arguments.
     arguments = docopt(cli_docs)
-    # print arguments
-    # exit()
-
-    # Cleanup docopt parsing errors.
-    if arguments['--params'] and arguments['<format>'] not in supported_formats:
-        arguments['<params>'].insert(0, arguments['<format>'])
-        arguments['<format>'] = None
 
     # Create the Database.
     db = Database(arguments['--url'])
 
     query = arguments['<query>']
     params = arguments['<params>']
+
+    # Can't send an empty list if params aren't expected.
+    if not len(params):
+        params = None
 
     # Execute the query, if it is a found file.
     if os.path.isfile(query):
@@ -322,12 +316,6 @@ Cake:
     else:
         print('The given query could not be found.')
         exit(66)
-
-    # Interactive mode.
-    if arguments['--interactive']:
-        interactive_env = {'db': db, 'rows': rows}
-        interact(interactive_env, local=interactive_env)
-        exit()
 
     # Print results in desired format.
     if arguments['<format>']:

@@ -40,14 +40,14 @@ Or iterate over them:
 Values can be accessed many ways: ``row.user_email``, ``row['user_email']``, or ``row[3]``. 
 Fields with non-alphanumeric characters (like spaces) are also fully supported. 
 
-Or store them all for later reference:
+Or store a copy of your record collection for later reference:
 
 .. code:: python
 
     >>> rows.all()
     [<Record {"username": ...}>, <Record {"username": ...}>, <Record {"username": ...}>, ...]
 
-If you'd prefer to have a copy of your record collection, use ``rows.as_dict()`` or ``rows.as_dict(ordered=True)``.
+Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 
 ☤ Features
 ----------

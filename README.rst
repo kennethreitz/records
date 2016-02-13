@@ -1,8 +1,8 @@
 Records: SQL for Humans™
 ========================
 
-Records is a very simple, but powerful, library for making raw SQL queries
-to *most* relational databases.
+**Records is a very simple, but powerful, library for making raw SQL queries
+to *most* relational databases.**
 
 This includes: Postgresql, MySQL, SQLite, Oracle, MS-SQL, and others (database drivers not included).
 

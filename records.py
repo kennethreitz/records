@@ -32,7 +32,7 @@ class Record(object):
         return self._values
 
     def __repr__(self):
-        return '<Record {}>'.format(self.export('json'))
+        return '<Record {}>'.format(self.export('json')[1:-1])
 
     def __getitem__(self, key):
         # Support for index-based lookup.
@@ -95,15 +95,15 @@ class Record(object):
         return self.dataset.export(format, **kwargs)
 
 
-class ResultSet(object):
-    """A set of results from a query."""
+class RecordCollection(object):
+    """A set of excellent Records from a query."""
     def __init__(self, rows):
         self._rows = rows
         self._all_rows = []
         self.pending = True
 
     def __repr__(self):
-        r = '<ResultSet size={} pending={}>'.format(len(self), self.pending)
+        r = '<RecordCollection size={} pending={}>'.format(len(self), self.pending)
         return r
 
     def __iter__(self):
@@ -131,12 +131,12 @@ class ResultSet(object):
             return nextrow
         except StopIteration:
             self.pending = False
-            raise StopIteration('ResultSet contains no more rows.')
+            raise StopIteration('RecordCollection contains no more rows.')
 
     def __getitem__(self, key):
         is_int = isinstance(key, int)
 
-        # Convert ResultSet[1] into slice.
+        # Convert RecordCollection[1] into slice.
         if is_int:
             key = slice(key, key + 1)
 
@@ -150,18 +150,18 @@ class ResultSet(object):
         if is_int:
             return rows[0]
         else:
-            return ResultSet(iter(rows))
+            return RecordCollection(iter(rows))
 
     def __len__(self):
         return len(self._all_rows)
 
     def export(self, format, **kwargs):
-        """Export the ResultSet to a given format (courtesy of Tablib)."""
+        """Export the RecordCollection to a given format (courtesy of Tablib)."""
         return self.dataset.export(format, **kwargs)
 
     @property
     def dataset(self):
-        """A Tablib Dataset representation of the ResultSet."""
+        """A Tablib Dataset representation of the RecordCollection."""
         # Create a new Tablib Dataset.
         data = tablib.Dataset()
 
@@ -176,7 +176,7 @@ class ResultSet(object):
         return data
 
     def all(self, as_dict=False, as_ordereddict=False):
-        """Returns a list of all rows for the ResultSet. If they haven't
+        """Returns a list of all rows for the RecordCollection. If they haven't
         been fetched yet, consume the iterator and cache the results."""
 
         # By calling list it calls the __iter__ method
@@ -229,7 +229,7 @@ class Database(object):
 
     def query(self, query, fetchall=False, **params):
         """Executes the given SQL query against the Database. Parameters
-        can, optionally, be provided. Returns a ResultSet, which can be
+        can, optionally, be provided. Returns a RecordCollection, which can be
         iterated over to get result rows as dictionaries.
         """
 
@@ -239,8 +239,8 @@ class Database(object):
         # Row-by-row Record generator.
         row_gen = (Record(cursor.keys(), row) for row in cursor)
 
-        # Convert psycopg2 results to ResultSet.
-        results = ResultSet(row_gen)
+        # Convert psycopg2 results to RecordCollection.
+        results = RecordCollection(row_gen)
 
         # Fetch all results if desired.
         if fetchall:

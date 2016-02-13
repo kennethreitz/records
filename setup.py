@@ -14,8 +14,8 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py bdist_wheel upload --universal')
     sys.exit()
 
-requires = ['psycopg2', 'tablib', 'docopt']
-version = '0.3.0'
+requires = ['SQLAlchemy', 'tablib', 'docopt']
+version = '0.4.0'
 
 def read(f):
     return open(f, encoding='utf-8').read()

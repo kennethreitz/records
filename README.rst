@@ -37,7 +37,7 @@ Or iterate over them:
     for r in rows:
         spam_user(name=r.name, email=r.user_email)
 
-Values can be accessed many ways: ``row.user_email``, ``row['user_email']``, or ``row[3]``. Fields with non-alphanumeric charecters (like spaces) are also fully supported. 
+Values can be accessed many ways: ``row.user_email``, ``row['user_email']``, or ``row[3]``. Fields with non-alphanumeric characters (like spaces) are also fully supported. 
 
 Or store them all for later reference:
 

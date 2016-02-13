@@ -299,7 +299,7 @@ Query Parameters:
     Query parameters can be specified in key=value format, and injected
     into your query in :key format e.g.:
 
-  $ records 'select * from repos where language ~= :lang' lang=python
+    $ records 'select * from repos where language ~= :lang' lang=python
 
 Notes:
   - While you may specify a Postgres connection string with --url, records

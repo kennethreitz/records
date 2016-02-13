@@ -73,7 +73,7 @@ Excellent for sharing data with friends, or generating reports.
 
 .. code:: pycon
 
-    >>> print rows.dataset
+    >>> print(rows.dataset)
     username|active|name      |user_email       |timezone
     --------|------|----------|-----------------|--------------------------
     model-t |True  |Henry Ford|model-t@gmail.com|2016-02-06 22:28:23.894202
@@ -83,7 +83,7 @@ Excellent for sharing data with friends, or generating reports.
 
 .. code:: pycon
 
-    >>> print rows.export('csv')
+    >>> print(rows.export('csv'))
     username,active,name,user_email,timezone
     model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
     ...
@@ -92,7 +92,7 @@ Excellent for sharing data with friends, or generating reports.
 
 .. code:: python
 
-    >>> print rows.export('yaml')
+    >>> print(rows.export('yaml'))
     - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
     ...
 
@@ -100,7 +100,7 @@ Excellent for sharing data with friends, or generating reports.
 
 .. code:: python
 
-    >>> print rows.export('json')
+    >>> print(rows.export('json'))
     [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
 **Microsoft Excel (xls, xlsx)**

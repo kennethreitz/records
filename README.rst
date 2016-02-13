@@ -2,7 +2,7 @@ Records: SQL for Humans™
 ========================
 
 Records is a very simple, but powerful, library for making raw SQL queries
-to Postgres databases.
+to most relational databases.
 
 This common task can be surprisingly difficult with the standard tools available.
 This library strives to make this workflow as simple as possible,
@@ -44,15 +44,14 @@ Or store them all for later reference:
 ☤ Features
 ----------
 
-- HSTORE support, if available.
 - Iterated rows are cached for future reference.
 - ``$DATABASE_URL`` environment variable support.
 - Convenience ``Database.get_table_names`` method.
-- Command-line `records` tool for exporting queries. 
-- Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('life=%s', params=('42',))``
+- Command-line `records` tool for exporting queries.
+- Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('life=:everything', everything=42)``
 - Queries can be passed as strings or filenames, parameters supported.
 
-Records is proudly powered by `Psycopg2 <https://pypi.python.org/pypi/psycopg2>`_
+Records is proudly powered by `SQLAlchemy <http://www.sqlalchemy.org>`_
 and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
 
 ☤ Data Export Functionality

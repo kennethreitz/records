@@ -58,7 +58,7 @@ Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 - ``$DATABASE_URL`` environment variable support.
 - Convenience ``Database.get_table_names`` method.
 - Command-line `records` tool for exporting queries.
-- Safe `parameterization <http://initd.org/psycopg/docs/usage.html>`_: ``Database.query('life=:everything', everything=42)``
+- Safe parameterization: ``Database.query('life=:everything', everything=42)``
 - Queries can be passed as strings or filenames, parameters supported.
 
 Records is proudly powered by `SQLAlchemy <http://www.sqlalchemy.org>`_

@@ -10,8 +10,6 @@ while providing an elegant interface to work with your query results.
 
 *Database support includes Postgresql, MySQL, SQLite, Oracle, and MS-SQL (drivers not included).*
 
--------------------------------------
-
 
 ☤ The Basics
 ------------

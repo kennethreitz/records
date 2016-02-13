@@ -288,14 +288,18 @@ Usage:
 Options:
   -h --help     Show this screen.
   --url=<url>   The database URL to use. Defaults to $DATABASE_URL.
-  --params      Parameterized query. Subsequent arguments are treated
-                as parameters to the query.
 
 Supported Formats:
    csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
 
    Note: xls, xlsx, dbf, and ods formats are binary, and should only be
          used with redirected output e.g. '$ records sql xls > sql.xls'.
+
+Query Parameters:
+    Query parameters can be specified in key=value format, and injected
+    into your query in :key format e.g.:
+
+  $ records 'select * from repos where language ~= :lang' lang=python
 
 Notes:
   - While you may specify a Postgres connection string with --url, records
@@ -322,14 +326,11 @@ Cake:
     params = arguments['<params>']
 
     # Can't send an empty list if params aren't expected.
-    if not len(params):
-        params = None
-    else:
-        try:
-            params = dict([i.split('=') for i in params])
-        except ValueError:
-            print('Parameters must be given in key=value format.')
-            exit(64)
+    try:
+        params = dict([i.split('=') for i in params])
+    except ValueError:
+        print('Parameters must be given in key=value format.')
+        exit(64)
 
     # Execute the query, if it is a found file.
     if os.path.isfile(query):

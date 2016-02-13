@@ -168,9 +168,9 @@ class ResultSet(object):
         # Set the column names as headers on Tablib Dataset.
         first = self[0]
 
-        data.headers = first._fields
+        data.headers = first.keys()
         for row in self.all():
-            row = _reduce_datetimes(row)
+            row = _reduce_datetimes(row.values())
             data.append(row)
 
         return data
@@ -282,7 +282,7 @@ def cli():
 A Kenneth Reitz project.
 
 Usage:
-  records <query> <format> [--params <params>...] [--url=<url>]
+  records <query> <format> [<params>...] [--url=<url>]
   records (-h | --help)
 
 Options:
@@ -312,6 +312,8 @@ Cake:
 
     # Parse the command-line arguments.
     arguments = docopt(cli_docs)
+    # print arguments
+    # exit()
 
     # Create the Database.
     db = Database(arguments['--url'])
@@ -322,14 +324,20 @@ Cake:
     # Can't send an empty list if params aren't expected.
     if not len(params):
         params = None
+    else:
+        try:
+            params = dict([i.split('=') for i in params])
+        except ValueError:
+            print('Parameters must be given in key=value format.')
+            exit(64)
 
     # Execute the query, if it is a found file.
     if os.path.isfile(query):
-        rows = db.query_file(query, params)
+        rows = db.query_file(query, **params)
 
     # Execute the query, if it appears to be a query string.
     elif len(query.split()) > 2:
-        rows = db.query(query, params)
+        rows = db.query(query, **params)
 
     # Otherwise, say the file wasn't found.
     else:

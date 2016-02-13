@@ -188,6 +188,30 @@ class RecordCollection(object):
     def as_dict(self, ordered=False):
         return self.all(as_dict=not(ordered), as_ordereddict=ordered)
 
+    def one(self, default=None, as_dict=False, as_ordereddict=False):
+        """Returns a single record for the RecordCollection, or `default`."""
+
+        # Try to get a record, or return default.
+        try:
+            record = next(self)
+        except StopIteration:
+            return default
+
+        # Ensure that we don't have more than one row.
+        try:
+            next(self)
+        except StopIteration:
+            pass
+        else:
+            raise ValueError('RecordCollection contains too many rows.')
+
+        # Cast and return.
+        if as_dict:
+            return record.as_dict()
+        elif as_ordereddict:
+            return record.as_dict(ordered=True)
+        else:
+            return record
 
 class Database(object):
     """A Database connection."""

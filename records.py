@@ -253,11 +253,11 @@ class Database(object):
 
         # If path doesn't exists
         if not os.path.exists(path):
-            raise FileNotFoundError
+            raise IOError("File '{}'' not found!".format(path))
 
         # If it's a directory
         if os.path.isdir(path):
-            raise IsADirectoryError
+            raise IOError("'{}' is a directory!".format(path))
 
         # Read the given .sql file into memory.
         with open(path) as f:

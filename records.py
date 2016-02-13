@@ -49,7 +49,7 @@ class Record(object):
     def __getattr__(self, key):
         try:
             return self[key]
-        except KeyError, e:
+        except KeyError as e:
             raise AttributeError(e)
 
     def __dir__(self):

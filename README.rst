@@ -25,7 +25,7 @@ Grab one row at a time:
 .. code:: python
 
     >>> rows[0]
-    Record(username='model-t', name='Henry Ford', active=True, timezone=datetime.datetime(2016, 2, 6, 22, 28, 23, 894202), user_email='model-t@gmail.com')
+    <Record {"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}>
 
 Or iterate over them:
 
@@ -39,7 +39,7 @@ Or store them all for later reference:
 .. code:: python
 
     >>> rows.all()
-    [Record(username=...), Record(username=...), Record(username=...), ...]
+    [<Record {"username": ...}>, <Record {"username": ...}>, <Record {"username": ...}>, ...]
 
 ☤ Features
 ----------

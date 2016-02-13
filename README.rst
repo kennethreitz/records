@@ -4,7 +4,7 @@ Records: SQL for Humans™
 **Records is a very simple, but powerful, library for making raw SQL queries
 to most relational databases.**
 
-Just write SQL. No bells, no whistles. This common task can be 
+Just write SQL. No bells, no whistles. This common task can be
 surprisingly difficult with the standard tools available.
 This library strives to make this workflow as simple as possible,
 while providing an elegant interface to work with your query results.
@@ -38,9 +38,9 @@ Or iterate over them:
     for r in rows:
         spam_user(name=r.name, email=r.user_email)
 
-Values can be accessed many ways: ``row.user_email``, ``row['user_email']``, or ``row[3]``. 
+Values can be accessed many ways: ``row.user_email``, ``row['user_email']``, or ``row[3]``.
 
-Fields with non-alphanumeric characters (like spaces) are also fully supported. 
+Fields with non-alphanumeric characters (like spaces) are also fully supported.
 
 Or store a copy of your record collection for later reference:
 
@@ -79,36 +79,36 @@ Excellent for sharing data with friends, or generating reports.
     model-t |True  |Henry Ford|model-t@gmail.com|2016-02-06 22:28:23.894202
     ...
 
-- Comma Seperated Values (CSV)
+**Comma Seperated Values (CSV)**
 
-  .. code:: pycon
+.. code:: pycon
 
-      >>> print rows.export('csv')
-      username,active,name,user_email,timezone
-      model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
-      ...
+    >>> print rows.export('csv')
+    username,active,name,user_email,timezone
+    model-t,True,Henry Ford,model-t@gmail.com,2016-02-06 22:28:23.894202
+    ...
 
-- YAML Ain't Markup Language (YAML)
+**YAML Ain't Markup Language (YAML)**
 
-  .. code:: python
+.. code:: python
 
-      >>> print rows.export('yaml')
-      - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
-      ...
+    >>> print rows.export('yaml')
+    - {active: true, name: Henry Ford, timezone: '2016-02-06 22:28:23.894202', user_email: model-t@gmail.com, username: model-t}
+    ...
 
-- JavaScript Object Notation (JSON)
+**JavaScript Object Notation (JSON)**
 
-  .. code:: python
+.. code:: python
 
-      >>> print rows.export('json')
-      [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
+    >>> print rows.export('json')
+    [{"username": "model-t", "active": true, "name": "Henry Ford", "user_email": "model-t@gmail.com", "timezone": "2016-02-06 22:28:23.894202"}, ...]
 
-- Microsoft Excel (xls, xlsx)
+**Microsoft Excel (xls, xlsx)**
 
-  .. code:: python
+.. code:: python
 
-      with open('report.xls', 'wb') as f:
-          f.write(rows.export('xls'))
+    with open('report.xls', 'wb') as f:
+        f.write(rows.export('xls'))
 
 You get the point. All other features of Tablib are also available,
 so you can sort results, add/remove columns/rows, remove duplicates,

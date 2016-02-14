@@ -79,7 +79,7 @@ Excellent for sharing data with friends, or generating reports.
     model-t |True  |Henry Ford|model-t@gmail.com|2016-02-06 22:28:23.894202
     ...
 
-**Comma Seperated Values (CSV)**
+**Comma Separated Values (CSV)**
 
 .. code:: pycon
 

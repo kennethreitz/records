@@ -278,7 +278,7 @@ def _reduce_datetimes(row):
 
 
 def cli():
-    cli_docs ="""Records: SQL for Humans™
+    cli_docs = """Records: SQL for Humans™
 A Kenneth Reitz project.
 
 Usage:
@@ -290,7 +290,7 @@ Options:
   --url=<url>   The database URL to use. Defaults to $DATABASE_URL.
 
 Supported Formats:
-   csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
+   {0}
 
    Note: xls, xlsx, dbf, and ods formats are binary, and should only be
          used with redirected output e.g. '$ records sql xls > sql.xls'.
@@ -312,10 +312,11 @@ Notes:
 Cake:
    ✨ 🍰 ✨
     """
-    supported_formats = 'csv tsv json yaml html xls xlsx dbf latex ods'.split()
+    # get all formats supported by tablib
+    supported_formats = [fmt.title for fmt in tablib.formats.available]
 
     # Parse the command-line arguments.
-    arguments = docopt(cli_docs)
+    arguments = docopt(cli_docs.format(", ".join(supported_formats)))
 
     # Create the Database.
     db = Database(arguments['--url'])

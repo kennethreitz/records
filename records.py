@@ -308,9 +308,6 @@ Notes:
     can be provided instead. Use this feature discernfully; it's dangerous.
   - Records is intended for report-style exports of database queries, and
     has not yet been optimized for extremely large data dumps.
-
-Cake:
-   ✨ 🍰 ✨
     """
     supported_formats = 'csv tsv json yaml html xls xlsx dbf latex ods'.split()
 

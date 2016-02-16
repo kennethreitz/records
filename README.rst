@@ -36,7 +36,7 @@ Or iterate over them:
 .. code:: python
 
     for r in rows:
-        spam_user(name=r.name, email=r.user_email)
+        print(r.name, r.user_email)
 
 Values can be accessed many ways: ``row.user_email``, ``row['user_email']``, or ``row[3]``.
 

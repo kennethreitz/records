@@ -49,7 +49,7 @@ Or store a copy of your record collection for later reference:
     >>> rows.all()
     [<Record {"username": ...}>, <Record {"username": ...}>, <Record {"username": ...}>, ...]
 
-Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
+Other options include ``rows.all(as_dict=True)`` and ``rows.all(as_ordereddict=True)``.
 
 ☤ Features
 ----------
@@ -140,5 +140,3 @@ included. Here's a screenshot of the usage information:
 Thanks for checking this library out! I hope you find it useful.
 
 Of course, there's always room for improvement. Feel free to `open an issue <https://github.com/kennethreitz/records/issues>`_ so we can make Records better, stronger, faster.
-
-

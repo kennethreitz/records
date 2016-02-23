@@ -189,6 +189,10 @@ class RecordCollection(object):
 
         return rows
 
+    def as_dict(self, ordered=False):
+        return self.all(as_dict=not(ordered), as_ordereddict=ordered)
+
+
 class Database(object):
     """A Database connection."""
 

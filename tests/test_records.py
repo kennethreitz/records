@@ -5,8 +5,10 @@ import records
 
 IdRecord = namedtuple('IdRecord', 'id')
 
+
 def check_id(i, row):
     assert row.id == i
+
 
 class TestRecordCollection:
     def test_iter(self):
@@ -45,3 +47,15 @@ class TestRecordCollection:
         for i, row in enumerate(rows):
             check_id(i, row)
         assert len(rows) == 10
+
+
+class TestRecord:
+
+    def test_record_dir(self):
+        keys, values = ['id', 'name', 'email'], [1, '', '']
+        record = records.Record(keys, values)
+        _dir = dir(record)
+        for key in keys:
+            assert key in _dir
+        for key in dir(object):
+            assert key in _dir

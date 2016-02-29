@@ -270,6 +270,11 @@ class Database(object):
         # Defer processing to self.query method.
         return self.query(query=query, fetchall=fetchall, **params)
 
+    def transaction(self):
+        """Returns a transaction object. Call ``commit`` or ``rollback``
+        on the returned object as appropriate."""
+        return self.db.begin()
+
 def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""
 
@@ -279,7 +284,6 @@ def _reduce_datetimes(row):
         if hasattr(row[i], 'isoformat'):
             row[i] = row[i].isoformat()
     return tuple(row)
-
 
 def cli():
     cli_docs ="""Records: SQL for Humans™

@@ -1,5 +1,3 @@
-import pytest
-
 import records
 
 db = records.Database('sqlite:///:memory:')

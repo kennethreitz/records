@@ -165,6 +165,11 @@ class RecordCollection(object):
         # Create a new Tablib Dataset.
         data = tablib.Dataset()
 
+        # If the RecordCollection is empty, just return the empty set
+        # Check number of rows by typecasting to list
+        if len(list(self)) == 0:
+            return data
+
         # Set the column names as headers on Tablib Dataset.
         first = self[0]
 

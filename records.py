@@ -20,7 +20,7 @@ class Record(object):
         self._keys = keys
         self._values = values
 
-        # Esure that lengths match properly.
+        # Ensure that lengths match properly.
         assert len(self._keys) == len(self._values)
 
     def keys(self):

@@ -286,7 +286,7 @@ class TransactionContext():
             self.transaction.commit()
         else:
             self.transaction.rollback()
-
+        return True
 
 def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""

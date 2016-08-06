@@ -7,14 +7,11 @@ db.query('CREATE TABLE foo (a integer)')
 
 
 def test_failing_transaction():
-    try:
-        with db.transaction():
-            db.query('INSERT INTO foo VALUES (42)')
-            db.query('INSERT INTO foo VALUES (43)')
-            raise ValueError()
-            db.query('INSERT INTO foo VALUES (44)')
-    except ValueError:
-        pass
+    with db.transaction():
+        db.query('INSERT INTO foo VALUES (42)')
+        db.query('INSERT INTO foo VALUES (43)')
+        raise ValueError()
+        db.query('INSERT INTO foo VALUES (44)')
     assert db.query('SELECT count(*) AS n FROM foo')[0].n == 0
 
 def test_passing_transaction():

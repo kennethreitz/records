@@ -270,6 +270,24 @@ class Database(object):
         # Defer processing to self.query method.
         return self.query(query=query, fetchall=fetchall, **params)
 
+    def transaction(self):
+        return TransactionContext(self.db)
+
+class TransactionContext():
+    def __init__(self, db):
+        self.db = db
+
+    def __enter__(self):
+        self.transaction = self.db.begin()
+        return self.transaction
+
+    def __exit__(self, exc_type, exc_value, tb):
+        if exc_type == None:
+            self.transaction.commit()
+        else:
+            self.transaction.rollback()
+        return True
+
 def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""
 

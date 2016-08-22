@@ -196,7 +196,7 @@ class RecordCollection(object):
 class Database(object):
     """A Database connection."""
 
-    def __init__(self, db_url=None):
+    def __init__(self, db_url=None, **kwargs):
         # If no db_url was provided, fallback to $DATABASE_URL.
         self.db_url = db_url or DATABASE_URL
 
@@ -204,7 +204,7 @@ class Database(object):
             raise ValueError('You must provide a db_url.')
 
         # Connect to the database.
-        self.db = create_engine(self.db_url).connect()
+        self.db = create_engine(self.db_url, **kwargs).connect()
         self.open = True
 
     def close(self):

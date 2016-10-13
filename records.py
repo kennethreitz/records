@@ -36,7 +36,7 @@ class Record(object):
 
     def __getitem__(self, key):
         # Support for index-based lookup.
-        if isinstance(key, int):
+        if isinstance(key, int) and abs(key)<len(self):
             return self.values()[key]
 
         # Support for string-based lookup.

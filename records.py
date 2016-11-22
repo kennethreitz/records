@@ -201,9 +201,11 @@ class RecordCollection(object):
         return self.all(as_dict=not(ordered), as_ordereddict=ordered)
 
     def first(self, default=None, as_dict=False, as_ordereddict=False):
-        """Returns a single record for the RecordCollection, or `default`."""
+        """Returns a single record for the RecordCollection, or `default`. If
+        `default` is an instance or subclass of Exception, then raise it
+        instead of returning it."""
 
-        # Try to get a record, or return default.
+        # Try to get a record, or return/raise default.
         try:
             record = self[0]
         except IndexError:

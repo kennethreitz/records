@@ -53,7 +53,7 @@ If you're only expecting one result:
 
 .. code:: python
 
-    >>> rows.one()
+    >>> rows.first()
     <Record {"username": ...}>
 
 Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.

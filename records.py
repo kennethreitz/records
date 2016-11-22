@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-from code import interact
-from datetime import datetime
 from collections import OrderedDict
 from inspect import isclass
 

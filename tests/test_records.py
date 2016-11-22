@@ -64,7 +64,7 @@ class TestRecordCollection:
         rows = records.RecordCollection(IdRecord(i) for i in range(1))
         assert rows.first() == IdRecord(0)
 
-    def test_first_defaults_to_Nfirst(self):
+    def test_first_defaults_to_None(self):
         rows = records.RecordCollection(iter([]))
         assert rows.first() is None
 

@@ -2,6 +2,8 @@ from collections import namedtuple
 
 import records
 
+from pytest import raises
+
 
 IdRecord = namedtuple('IdRecord', 'id')
 
@@ -47,6 +49,42 @@ class TestRecordCollection:
         for i, row in enumerate(rows):
             check_id(i, row)
         assert len(rows) == 10
+
+
+    # all
+
+    def test_all_returns_a_list_of_records(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(3))
+        assert rows.all() == [IdRecord(0), IdRecord(1), IdRecord(2)]
+
+
+    # first
+
+    def test_first_returns_a_single_record(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(1))
+        assert rows.first() == IdRecord(0)
+
+    def test_first_defaults_to_None(self):
+        rows = records.RecordCollection(iter([]))
+        assert rows.first() is None
+
+    def test_first_default_is_overridable(self):
+        rows = records.RecordCollection(iter([]))
+        assert rows.first('Cheese') == 'Cheese'
+
+    def test_first_raises_when_more_than_first(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(3))
+        raises(ValueError, rows.first)
+
+    def test_first_raises_default_if_its_an_exception_subclass(self):
+        rows = records.RecordCollection(iter([]))
+        class Cheese(Exception): pass
+        raises(Cheese, rows.first, Cheese)
+
+    def test_first_raises_default_if_its_an_exception_instance(self):
+        rows = records.RecordCollection(iter([]))
+        class Cheese(Exception): pass
+        raises(Cheese, rows.first, Cheese('cheddar'))
 
 
 class TestRecord:

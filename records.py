@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-from code import interact
-from datetime import datetime
 from collections import OrderedDict
+from inspect import isclass
 
 import tablib
 from docopt import docopt
@@ -11,6 +10,17 @@ from sqlalchemy import text, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
+
+
+def isexception(obj):
+    """Given an object, return a boolean indicating whether it is an instance
+    or subclass of :py:class:`Exception`.
+    """
+    if isinstance(obj, Exception):
+        return True
+    if isclass(obj) and issubclass(obj, Exception):
+        return True
+    return False
 
 
 class Record(object):
@@ -188,6 +198,34 @@ class RecordCollection(object):
     def as_dict(self, ordered=False):
         return self.all(as_dict=not(ordered), as_ordereddict=ordered)
 
+    def first(self, default=None, as_dict=False, as_ordereddict=False):
+        """Returns a single record for the RecordCollection, or `default`. If
+        `default` is an instance or subclass of Exception, then raise it
+        instead of returning it."""
+
+        # Try to get a record, or return/raise default.
+        try:
+            record = self[0]
+        except IndexError:
+            if isexception(default):
+                raise default
+            return default
+
+        # Ensure that we don't have more than one row.
+        try:
+            self[1]
+        except IndexError:
+            pass
+        else:
+            raise ValueError('RecordCollection contains too many rows.')
+
+        # Cast and return.
+        if as_dict:
+            return record.as_dict()
+        elif as_ordereddict:
+            return record.as_dict(ordered=True)
+        else:
+            return record
 
 class Database(object):
     """A Database connection."""

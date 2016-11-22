@@ -49,6 +49,13 @@ Or store a copy of your record collection for later reference:
     >>> rows.all()
     [<Record {"username": ...}>, <Record {"username": ...}>, <Record {"username": ...}>, ...]
 
+If you're only expecting one result:
+
+.. code:: python
+
+    >>> rows.first()
+    <Record {"username": ...}>
+
 Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 
 ☤ Features

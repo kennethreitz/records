@@ -58,33 +58,33 @@ class TestRecordCollection:
         assert rows.all() == [IdRecord(0), IdRecord(1), IdRecord(2)]
 
 
-    # one
+    # first
 
-    def test_one_returns_a_single_record(self):
+    def test_first_returns_a_single_record(self):
         rows = records.RecordCollection(IdRecord(i) for i in range(1))
-        assert rows.one() == IdRecord(0)
+        assert rows.first() == IdRecord(0)
 
-    def test_one_defaults_to_None(self):
+    def test_first_defaults_to_Nfirst(self):
         rows = records.RecordCollection(iter([]))
-        assert rows.one() is None
+        assert rows.first() is None
 
-    def test_one_default_is_overridable(self):
+    def test_first_default_is_overridable(self):
         rows = records.RecordCollection(iter([]))
-        assert rows.one('Cheese') == 'Cheese'
+        assert rows.first('Cheese') == 'Cheese'
 
-    def test_one_raises_when_more_than_one(self):
+    def test_first_raises_when_more_than_first(self):
         rows = records.RecordCollection(IdRecord(i) for i in range(3))
-        raises(ValueError, rows.one)
+        raises(ValueError, rows.first)
 
-    def test_one_raises_default_if_its_an_exception_subclass(self):
+    def test_first_raises_default_if_its_an_exception_subclass(self):
         rows = records.RecordCollection(iter([]))
         class Cheese(Exception): pass
-        raises(Cheese, rows.one, Cheese)
+        raises(Cheese, rows.first, Cheese)
 
-    def test_one_raises_default_if_its_an_exception_instance(self):
+    def test_first_raises_default_if_its_an_exception_instance(self):
         rows = records.RecordCollection(iter([]))
         class Cheese(Exception): pass
-        raises(Cheese, rows.one, Cheese('cheddar'))
+        raises(Cheese, rows.first, Cheese('cheddar'))
 
 
 class TestRecord:

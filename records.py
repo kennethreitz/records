@@ -200,7 +200,7 @@ class RecordCollection(object):
     def as_dict(self, ordered=False):
         return self.all(as_dict=not(ordered), as_ordereddict=ordered)
 
-    def one(self, default=None, as_dict=False, as_ordereddict=False):
+    def first(self, default=None, as_dict=False, as_ordereddict=False):
         """Returns a single record for the RecordCollection, or `default`."""
 
         # Try to get a record, or return default.

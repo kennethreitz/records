@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import re
 import sys
 from codecs import open
 
@@ -17,6 +16,7 @@ if sys.argv[-1] == 'publish':
 requires = ['SQLAlchemy', 'tablib', 'docopt']
 version = '0.5.0'
 
+
 def read(f):
     return open(f, encoding='utf-8').read()
 
@@ -31,7 +31,7 @@ setup(
     py_modules=['records'],
     package_data={'': ['LICENSE']},
     include_package_data=True,
-    entry_points = {
+    entry_points={
         'console_scripts': ['records=records:cli'],
     },
     install_requires=requires,

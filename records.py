@@ -63,7 +63,7 @@ class Record(object):
             raise AttributeError(e)
 
     def __dir__(self):
-        standard = super(Record, self).__dir__()
+        standard = dir(super(Record, self))
         # Merge standard attrs with generated ones (from column names).
         return sorted(standard + [str(k) for k in self.keys()])
 

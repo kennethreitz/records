@@ -324,7 +324,7 @@ def cli():
 A Kenneth Reitz project.
 
 Usage:
-  records <query> <format> [<params>...] [--url=<url>]
+  records <query> [<format>] [<params>...] [--url=<url>]
   records (-h | --help)
 
 Options:

@@ -6,7 +6,7 @@ from inspect import isclass
 
 import tablib
 from docopt import docopt
-from sqlalchemy import MetaData, create_engine, inspect, text
+from sqlalchemy import create_engine, inspect, text
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 

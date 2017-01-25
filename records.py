@@ -104,8 +104,7 @@ class RecordCollection(object):
         self.pending = True
 
     def __repr__(self):
-        r = '<RecordCollection size={} pending={}>'.format(len(self), self.pending)
-        return r
+        return '<RecordCollection size={} pending={}>'.format(len(self), self.pending)
 
     def __iter__(self):
         """Iterate over all rows, consuming the underlying generator
@@ -120,7 +119,6 @@ class RecordCollection(object):
                 # Throws StopIteration when done.
                 yield next(self)
             i += 1
-
 
     def next(self):
         return self.__next__()

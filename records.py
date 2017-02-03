@@ -118,7 +118,11 @@ class RecordCollection(object):
                 yield self[i]
             else:
                 # Throws StopIteration when done.
-                yield next(self)
+                # Prevent StopIteration bubbling from generator, following https://www.python.org/dev/peps/pep-0479/
+                try:
+                    yield next(self)
+                except StopIteration:
+                    return
             i += 1
 
 

@@ -6,8 +6,7 @@ from inspect import isclass
 
 import tablib
 from docopt import docopt
-from sqlalchemy import text, create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine, inspect, text
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -239,8 +238,10 @@ class Database(object):
         if not self.db_url:
             raise ValueError('You must provide a db_url.')
 
+        self._engine = create_engine(self.db_url, **kwargs)
+
         # Connect to the database.
-        self.db = create_engine(self.db_url, **kwargs).connect()
+        self.db = self._engine.connect()
         self.open = True
 
     def close(self):
@@ -261,11 +262,7 @@ class Database(object):
         """Returns a list of table names for the connected database."""
 
         # Setup SQLAlchemy for Database inspection.
-        metadata = declarative_base().metadata
-        metadata.reflect(create_engine(self.db_url))
-
-        # Serve the table names.
-        return metadata.tables.keys()
+        return inspect(self._engine).get_table_names()
 
     def query(self, query, fetchall=False, **params):
         """Executes the given SQL query against the Database. Parameters

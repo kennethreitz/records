@@ -285,6 +285,10 @@ class Database(object):
 
         return results
 
+    def in_bulk(self, sql, *multiparams):
+        """Bulk insert or update."""
+        self.db.execute(text(sql), *multiparams)
+        
     def query_file(self, path, fetchall=False, **params):
         """Like Database.query, but takes a filename to load a query from."""
 

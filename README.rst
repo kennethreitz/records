@@ -129,6 +129,15 @@ Excellent for sharing data with friends, or generating reports.
 
     with open('report.xls', 'wb') as f:
         f.write(rows.export('xls'))
+        
+        
+**Pandas DataFrames**
+
+..code:: python
+
+    >>> rows.export('df')
+    <insert dataframe output here>
+    
 
 You get the point. All other features of Tablib are also available,
 so you can sort results, add/remove columns/rows, remove duplicates,

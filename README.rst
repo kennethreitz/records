@@ -131,7 +131,7 @@ Excellent for sharing data with friends, or generating reports.
         f.write(rows.export('xls'))
         
         
-**Pandas DataFrames**
+**Pandas DataFrame**
 
 .. code:: python
 

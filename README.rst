@@ -133,7 +133,7 @@ Excellent for sharing data with friends, or generating reports.
         
 **Pandas DataFrames**
 
-..code:: python
+.. code:: python
 
     >>> rows.export('df')
     <insert dataframe output here>

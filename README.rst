@@ -149,9 +149,9 @@ for more details.
 ☤ Installation
 --------------
 
-Of course, the recommended installation method is pip::
+Of course, the recommended installation method is `pipenv <http://pipenv.org>`_::
 
-    $ pip install records
+    $ pipenv install records
     ✨🍰✨
 
 ☤ Command-Line Tool

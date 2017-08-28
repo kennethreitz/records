@@ -88,7 +88,7 @@ and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
 ---------------------------
 
 Records also features full Tablib integration, and allows you to export
-your results to CSV, XLS, JSON, HTML Tables, or YAML with a single line of code.
+your results to CSV, XLS, JSON, HTML Tables, YAML, or Pandas DataFrames with a single line of code.
 Excellent for sharing data with friends, or generating reports.
 
 .. code:: pycon

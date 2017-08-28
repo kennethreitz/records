@@ -136,8 +136,8 @@ Excellent for sharing data with friends, or generating reports.
 .. code:: python
 
     >>> rows.export('df')
-    <insert dataframe output here>
-    
+        username  active       name        user_email                   timezone
+    0    model-t    True Henry Ford model-t@gmail.com 2016-02-06 22:28:23.894202
 
 You get the point. All other features of Tablib are also available,
 so you can sort results, add/remove columns/rows, remove duplicates,

@@ -286,9 +286,10 @@ class Database(object):
 
         return results
 
-    def in_bulk(self, sql, *multiparams):
+    def bulk_query(self, query, *multiparams):
         """Bulk insert or update."""
-        self.db.execute(text(sql), *multiparams)
+        
+        self.db.execute(text(query), *multiparams)
         
     def query_file(self, path, fetchall=False, **params):
         """Like Database.query, but takes a filename to load a query from."""
@@ -307,6 +308,23 @@ class Database(object):
 
         # Defer processing to self.query method.
         return self.query(query=query, fetchall=fetchall, **params)
+    
+     def bulk_query_file(self, path, *multiparams):
+        """Like Database.bulk_query, but takes a filename to load a query from."""
+        
+         # If path doesn't exists
+        if not os.path.exists(path):
+            raise IOError("File '{}'' not found!".format(path))
+
+        # If it's a directory
+        if os.path.isdir(path):
+            raise IOError("'{}' is a directory!".format(path))
+
+        # Read the given .sql file into memory.
+        with open(path) as f:
+            query = f.read()
+        
+        self.db.execute(text(query), *multiparams)
 
     def transaction(self):
         """Returns a transaction object. Call ``commit`` or ``rollback``

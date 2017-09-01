@@ -13,8 +13,8 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py bdist_wheel upload --universal')
     sys.exit()
 
-requires = ['SQLAlchemy', 'tablib', 'docopt']
-version = '0.5.0'
+requires = ['SQLAlchemy', 'tablib[pandas]', 'docopt']
+version = '0.5.1'
 
 
 def read(f):

@@ -1,3 +1,9 @@
+v0.5.1 (09-01-2017)
+===================
+
+- Depend on `tablib[pandas]`.
+- Support for Bulk quies: ``Database.bulk_query()`` & ``Database.bulk_query_file()``.
+
 v0.5.0 (11-15-2016)
 ===================
 

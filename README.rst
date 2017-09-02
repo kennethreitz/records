@@ -152,7 +152,7 @@ for more details.
 
 Of course, the recommended installation method is `pipenv <http://pipenv.org>`_::
 
-    $ pipenv install records
+    $ pipenv install records[pandas]
     ✨🍰✨
 
 ☤ Command-Line Tool

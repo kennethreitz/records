@@ -14,7 +14,7 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 requires = ['SQLAlchemy', 'tablib', 'docopt']
-version = '0.5.1'
+version = '0.5.2'
 
 
 def read(f):

@@ -13,7 +13,7 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py bdist_wheel upload --universal')
     sys.exit()
 
-requires = ['SQLAlchemy', 'tablib[pandas]', 'docopt']
+requires = ['SQLAlchemy', 'tablib', 'docopt']
 version = '0.5.1'
 
 
@@ -35,6 +35,9 @@ setup(
         'console_scripts': ['records=records:cli'],
     },
     install_requires=requires,
+    extras_require={
+        'pandas': ['tablib[pandas]'],
+    },
     license='ISC',
     zip_safe=False,
     classifiers=(

@@ -70,7 +70,7 @@ setup(
     extras_require={
         'pandas': ['tablib[pandas]'],
         'pg': ['psycopg2'],
-        'redshift': ['sqlalchemy-redshift', 'psychopg2']
+        'redshift': ['sqlalchemy-redshift', 'psycopg2']
         # TODO: Add the rest.
     },
     license='ISC',

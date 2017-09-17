@@ -1,7 +1,7 @@
 test:
 	pipenv run py.test tests
 init:
-	pipenv install
+	pipenv install --skip-lock
 publish:
 	python setup.py register
 	python setup.py sdist upload

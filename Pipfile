@@ -9,6 +9,7 @@ verify_ssl = true
 psycopg2 = "*"
 pytest = "*"
 tablib = "*"
-SQLAlchemy = "*"
+sqlalchemy = "*"
 docopt = "*"
+"-e ." = "*"
 

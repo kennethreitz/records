@@ -16,6 +16,8 @@ Records: SQL for Humans™
 **Records is a very simple, but powerful, library for making raw SQL queries
 to most relational databases.**
 
+.. image:: https://farm1.staticflickr.com/569/33085227621_7e8da49b90_k_d.jpg
+
 Just write SQL. No bells, no whistles. This common task can be
 surprisingly difficult with the standard tools available.
 This library strives to make this workflow as simple as possible,

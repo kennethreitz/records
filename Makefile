@@ -1,4 +1,4 @@
-test:
+test: init
 	pipenv run py.test tests
 init:
 	pipenv install --skip-lock

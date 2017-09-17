@@ -1,7 +1,7 @@
 test:
-	py.test tests
+	pipenv run py.test tests
 init:
-	pip install -r requirements.txt
+	pipenv install
 publish:
 	python setup.py register
 	python setup.py sdist upload

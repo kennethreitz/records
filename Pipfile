@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+
+psycopg2 = "*"
+pytest = "*"
+tablib = "*"
+SQLAlchemy = "*"
+docopt = "*"
+

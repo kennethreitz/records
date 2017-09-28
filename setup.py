@@ -46,7 +46,7 @@ class PublishCommand(Command):
         sys.exit()
 
 requires = ['SQLAlchemy', 'tablib', 'docopt']
-version = '0.5.2'
+version = '0.5.3'
 
 
 def read(f):

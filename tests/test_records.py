@@ -97,3 +97,9 @@ class TestRecord:
             assert key in _dir
         for key in dir(object):
             assert key in _dir
+
+    def test_record_duplicate_column(self):
+        keys, values = ['id', 'name', 'email', 'email'], [1, '', '', '']
+        record = records.Record(keys, values)
+        with raises(KeyError):
+            record['email']

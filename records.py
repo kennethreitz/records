@@ -7,7 +7,7 @@ from inspect import isclass
 
 import tablib
 from docopt import docopt
-from sqlalchemy import create_engine, inspect, text
+from sqlalchemy import create_engine, exc, inspect, text
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -270,6 +270,9 @@ class Database(object):
         """Get a connection to this Database. Connections are retrieved from a
         pool.
         """
+        if not self.open:
+            raise exc.ResourceClosedError('Database closed.')
+
         return Connection(self._engine.connect())
 
     def query(self, query, fetchall=False, **params):

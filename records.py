@@ -296,7 +296,7 @@ class Database(object):
 
         # If path doesn't exists
         if not os.path.exists(path):
-            raise IOError("File '{}'' not found!".format(path))
+            raise IOError("File '{}' not found!".format(path))
 
         # If it's a directory
         if os.path.isdir(path):

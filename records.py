@@ -231,6 +231,12 @@ class RecordCollection(object):
         else:
             return record
 
+    def scalar(self, default=None):
+        """Returns the first column of the first row, or `default`."""
+        first = self.first()
+        return first[0] if first else default
+
+
 class Database(object):
     """A Database connection."""
 

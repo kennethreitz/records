@@ -243,7 +243,9 @@ class RecordCollection(object):
         except IndexError:
             pass
         else:
-            raise ValueError('RecordCollection contains too many rows.')
+            raise ValueError('RecordCollection contained more than one row. '
+                             'Expects only one row when using '
+                             'RecordCollection.one')
 
         # Cast and return.
         if as_dict:

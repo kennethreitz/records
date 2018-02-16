@@ -72,10 +72,6 @@ class TestRecordCollection:
         rows = records.RecordCollection(iter([]))
         assert rows.first('Cheese') == 'Cheese'
 
-    def test_first_raises_when_more_than_first(self):
-        rows = records.RecordCollection(IdRecord(i) for i in range(3))
-        raises(ValueError, rows.first)
-
     def test_first_raises_default_if_its_an_exception_subclass(self):
         rows = records.RecordCollection(iter([]))
         class Cheese(Exception): pass
@@ -85,6 +81,34 @@ class TestRecordCollection:
         rows = records.RecordCollection(iter([]))
         class Cheese(Exception): pass
         raises(Cheese, rows.first, Cheese('cheddar'))
+
+    # one
+
+    def test_one_returns_a_single_record(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(1))
+        assert rows.one() == IdRecord(0)
+
+    def test_one_defaults_to_None(self):
+        rows = records.RecordCollection(iter([]))
+        assert rows.one() is None
+
+    def test_one_default_is_overridable(self):
+        rows = records.RecordCollection(iter([]))
+        assert rows.one('Cheese') == 'Cheese'
+
+    def test_one_raises_when_more_than_one(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(3))
+        raises(ValueError, rows.one)
+
+    def test_one_raises_default_if_its_an_exception_subclass(self):
+        rows = records.RecordCollection(iter([]))
+        class Cheese(Exception): pass
+        raises(Cheese, rows.one, Cheese)
+
+    def test_one_raises_default_if_its_an_exception_instance(self):
+        rows = records.RecordCollection(iter([]))
+        class Cheese(Exception): pass
+        raises(Cheese, rows.one, Cheese('cheddar'))
 
     # scalar
 
@@ -100,7 +124,7 @@ class TestRecordCollection:
         rows = records.RecordCollection(iter([]))
         assert rows.scalar('Kaffe') == 'Kaffe'
 
-    def test_scalar_raises_when_more_than_first(self):
+    def test_scalar_raises_when_more_than_one(self):
         rows = records.RecordCollection(IdRecord(i) for i in range(3))
         raises(ValueError, rows.scalar)
 

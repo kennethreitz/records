@@ -216,13 +216,36 @@ class RecordCollection(object):
                 raise default
             return default
 
+        # Cast and return.
+        if as_dict:
+            return record.as_dict()
+        elif as_ordereddict:
+            return record.as_dict(ordered=True)
+        else:
+            return record
+
+    def one(self, default=None, as_dict=False, as_ordereddict=False):
+        """Returns a single record for the RecordCollection, ensuring that it
+        is the only record, or returns `default`. If `default` is an instance
+        or subclass of Exception, then raise it instead of returning it."""
+
+        # Try to get a record, or return/raise default.
+        try:
+            record = self[0]
+        except IndexError:
+            if isexception(default):
+                raise default
+            return default
+
         # Ensure that we don't have more than one row.
         try:
             self[1]
         except IndexError:
             pass
         else:
-            raise ValueError('RecordCollection contains too many rows.')
+            raise ValueError('RecordCollection contained more than one row. '
+                             'Expects only one row when using '
+                             'RecordCollection.one')
 
         # Cast and return.
         if as_dict:
@@ -234,8 +257,8 @@ class RecordCollection(object):
 
     def scalar(self, default=None):
         """Returns the first column of the first row, or `default`."""
-        first = self.first()
-        return first[0] if first else default
+        row = self.one()
+        return row[0] if row else default
 
 
 class Database(object):

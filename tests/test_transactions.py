@@ -58,3 +58,7 @@ def test_passing_transaction(table_setup):
         conn.query('INSERT INTO foo VALUES (43)')
 
     assert db.query('SELECT count(*) AS n FROM foo')[0].n == 2
+
+def test_auto_map_for_exist(model_name,**kwargs):
+    Model = db.automap_for_exist_table("testModel")
+    model = Model(kwargs)

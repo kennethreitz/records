@@ -8,6 +8,8 @@ from inspect import isclass
 import tablib
 from docopt import docopt
 from sqlalchemy import create_engine, exc, inspect, text
+from sqlalchemy.ext.automap import automap_base
+
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -346,6 +348,16 @@ class Database(object):
         finally:
             conn.close()
 
+    def automap_for_exist_table(self, modelClass):
+        """
+            Reflect new model which exists in database.This action will list all tables.
+            note:
+                it must specify a primary key
+        """
+        AutoMapBase = automap_base()
+        AutoMapBase.prepare(self._engine, reflect=True)
+        Model = eval('AutoMapBase.classes.'+modelClass)
+        return Model
 
 class Connection(object):
     """A Database connection."""

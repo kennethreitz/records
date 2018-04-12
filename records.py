@@ -273,7 +273,7 @@ class Database(object):
         if not self.db_url:
             raise ValueError('You must provide a db_url.')
 
-        # Create an engine. 
+        # Create an engine.
         self._engine = create_engine(self.db_url, **kwargs)
         self.open = True
 
@@ -447,6 +447,8 @@ def _reduce_datetimes(row):
     return tuple(row)
 
 def cli():
+    supported_formats = 'csv tsv json yaml html xls xlsx dbf latex ods'.split()
+    formats_lst=", ".join(supported_formats)
     cli_docs ="""Records: SQL for Humans™
 A Kenneth Reitz project.
 
@@ -459,7 +461,7 @@ Options:
   --url=<url>   The database URL to use. Defaults to $DATABASE_URL.
 
 Supported Formats:
-   csv, tsv, json, yaml, html, xls, xlsx, dbf, latex, ods
+   %(formats_lst)s
 
    Note: xls, xlsx, dbf, and ods formats are binary, and should only be
          used with redirected output e.g. '$ records sql xls > sql.xls'.
@@ -477,8 +479,7 @@ Notes:
     can be provided instead. Use this feature discernfully; it's dangerous.
   - Records is intended for report-style exports of database queries, and
     has not yet been optimized for extremely large data dumps.
-    """
-    supported_formats = 'csv tsv json yaml html xls xlsx dbf latex ods'.split()
+    """ % dict(formats_lst=formats_lst)
 
     # Parse the command-line arguments.
     arguments = docopt(cli_docs)
@@ -488,6 +489,15 @@ Notes:
 
     query = arguments['<query>']
     params = arguments['<params>']
+    format = arguments.get('<format>')
+    if format and "=" in format:
+        del arguments['<format>']
+        arguments['<params>'].append(format)
+        format = None
+    if format and format not in supported_formats:
+        print('%s format not supported.' % format)
+        print('Supported formats are %s.' % formats_lst)
+        exit(62)
 
     # Can't send an empty list if params aren't expected.
     try:
@@ -510,8 +520,8 @@ Notes:
         exit(66)
 
     # Print results in desired format.
-    if arguments['<format>']:
-        print(rows.export(arguments['<format>']))
+    if format:
+        print(rows.export(format))
     else:
         print(rows.dataset)
 

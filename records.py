@@ -484,9 +484,6 @@ Notes:
     # Parse the command-line arguments.
     arguments = docopt(cli_docs)
 
-    # Create the Database.
-    db = Database(arguments['--url'])
-
     query = arguments['<query>']
     params = arguments['<params>']
     format = arguments.get('<format>')
@@ -506,24 +503,34 @@ Notes:
         print('Parameters must be given in key=value format.')
         exit(64)
 
-    # Execute the query, if it is a found file.
-    if os.path.isfile(query):
-        rows = db.query_file(query, **params)
+    # Be ready to fail on missing packages
+    try:
+        # Create the Database.
+        db = Database(arguments['--url'])
 
-    # Execute the query, if it appears to be a query string.
-    elif len(query.split()) > 2:
-        rows = db.query(query, **params)
+        # Execute the query, if it is a found file.
+        if os.path.isfile(query):
+            rows = db.query_file(query, **params)
 
-    # Otherwise, say the file wasn't found.
-    else:
-        print('The given query could not be found.')
-        exit(66)
+        # Execute the query, if it appears to be a query string.
+        elif len(query.split()) > 2:
+            rows = db.query(query, **params)
 
-    # Print results in desired format.
-    if format:
-        print(rows.export(format))
-    else:
-        print(rows.dataset)
+        # Otherwise, say the file wasn't found.
+        else:
+            print('The given query could not be found.')
+            exit(66)
+
+        # Print results in desired format.
+        if format:
+            print(rows.export(format))
+        else:
+            print(rows.dataset)
+    except ImportError as impexc:
+        print(impexc.msg)
+        print("Used database or format require a package, which is missing.")
+        print("Try to install missing packages.")
+        exit(60)
 
 # Run the CLI when executed directly.
 if __name__ == '__main__':

@@ -45,7 +45,10 @@ class PublishCommand(Command):
 
         sys.exit()
 
-requires = ['SQLAlchemy', 'tablib', 'docopt']
+requires = ['SQLAlchemy;python_version>="3.0"',
+            'SQLAlchemy<1.1;python_version<"3.0"',
+            'tablib',
+            'docopt']
 version = '0.5.3'
 
 

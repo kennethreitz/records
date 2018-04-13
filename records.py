@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from sys import stdout
 from collections import OrderedDict
 from contextlib import contextmanager
 from inspect import isclass
@@ -523,7 +524,11 @@ Notes:
 
         # Print results in desired format.
         if format:
-            print(rows.export(format))
+            content = rows.export(format)
+            if isinstance(content, bytes):
+                print_bytes(content)
+            else:
+                print(content)
         else:
             print(rows.dataset)
     except ImportError as impexc:
@@ -531,6 +536,14 @@ Notes:
         print("Used database or format require a package, which is missing.")
         print("Try to install missing packages.")
         exit(60)
+
+
+def print_bytes(content):
+    try:
+        stdout.buffer.write(content)
+    except AttributeError:
+        stdout.write(content)
+
 
 # Run the CLI when executed directly.
 if __name__ == '__main__':

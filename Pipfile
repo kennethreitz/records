@@ -3,13 +3,7 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "*"
 
 [packages]
-
-psycopg2 = "*"
-pytest = "*"
-tablib = "*"
-sqlalchemy = "*"
-docopt = "*"
-"-e ." = "*"
-
+"e1839a8" = {path = ".", extras = ["pg"], editable = true}

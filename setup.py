@@ -47,6 +47,7 @@ class PublishCommand(Command):
 
 requires = ['SQLAlchemy;python_version>="3.0"',
             'SQLAlchemy<1.1;python_version<"3.0"',
+            'openpyxl<2.5.0', # temporary fix to issue #142
             'tablib',
             'docopt']
 version = '0.5.3'

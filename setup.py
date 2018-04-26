@@ -22,7 +22,7 @@ class PublishCommand(Command):
     @staticmethod
     def status(s):
         """Prints things in bold."""
-        print('\033[1m{0}\033[0m'.format(s))
+        print('\033[1m{}\033[0m'.format(s))
 
     def initialize_options(self):
         pass
@@ -38,7 +38,7 @@ class PublishCommand(Command):
             pass
 
         self.status('Building Source and Wheel (universal) distribution...')
-        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+        os.system('{} setup.py sdist bdist_wheel --universal'.format(sys.executable))
 
         self.status('Uploading the package to PyPi via Twine...')
         os.system('twine upload dist/*')

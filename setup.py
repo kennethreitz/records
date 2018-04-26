@@ -32,20 +32,23 @@ class PublishCommand(Command):
 
     def run(self):
         try:
-            self.status('Removing previous builds…')
+            self.status('Removing previous builds...')
             rmtree(os.path.join(here, 'dist'))
         except FileNotFoundError:
             pass
 
-        self.status('Building Source and Wheel (universal) distribution…')
+        self.status('Building Source and Wheel (universal) distribution...')
         os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
 
-        self.status('Uploading the package to PyPi via Twine…')
+        self.status('Uploading the package to PyPi via Twine...')
         os.system('twine upload dist/*')
 
         sys.exit()
 
-requires = ['SQLAlchemy', 'tablib', 'docopt']
+requires = ['SQLAlchemy;python_version>="3.0"',
+            'SQLAlchemy<1.1;python_version<"3.0"',
+            'tablib',
+            'docopt']
 version = '0.5.3'
 
 
@@ -81,12 +84,12 @@ setup(
         'Natural Language :: English',
         'License :: OSI Approved :: ISC License (ISCL)',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
     ),
     cmdclass={

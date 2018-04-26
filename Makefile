@@ -1,7 +1,9 @@
+testall:
+	tox
 test: init
-	pipenv run py.test tests
+	pipenv run pytest tests
 init:
-	pipenv install --skip-lock
+	pipenv install --skip-lock --dev
 publish:
 	python setup.py register
 	python setup.py sdist upload

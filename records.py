@@ -230,31 +230,15 @@ class RecordCollection(object):
         is the only record, or returns `default`. If `default` is an instance
         or subclass of Exception, then raise it instead of returning it."""
 
-        # Try to get a record, or return/raise default.
-        try:
-            record = self[0]
-        except IndexError:
-            if isexception(default):
-                raise default
-            return default
-
         # Ensure that we don't have more than one row.
         try:
             self[1]
         except IndexError:
-            pass
+            return self.first(default=default, as_dict=as_dict, as_ordereddict=as_ordereddict)
         else:
             raise ValueError('RecordCollection contained more than one row. '
                              'Expects only one row when using '
                              'RecordCollection.one')
-
-        # Cast and return.
-        if as_dict:
-            return record.as_dict()
-        elif as_ordereddict:
-            return record.as_dict(ordered=True)
-        else:
-            return record
 
     def scalar(self, default=None):
         """Returns the first column of the first row, or `default`."""

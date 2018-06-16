@@ -9,6 +9,7 @@ from inspect import isclass
 import tablib
 from docopt import docopt
 from sqlalchemy import create_engine, exc, inspect, text
+from sqlalchemy.pool import QueuePool
 
 
 def isexception(obj):
@@ -260,8 +261,21 @@ class Database(object):
         self._engine = create_engine(self.db_url, **kwargs)
         self.open = True
 
-    def close(self):
-        """Closes the Database."""
+    def close(self, force=False):
+        """Closes the Database.
+
+        By default, the database must have no checked-out connections for this
+        operation to complete. This may be overriden by setting force=True, but
+        may result in stray connections.
+        """
+        if not force:
+            pool = self._engine.pool
+            if isinstance(pool, QueuePool) and pool.checkedout() != 0:
+                err_msg = ('Database has {} checked out connections. Consume '
+                           'all RecordCollections created by this database '
+                           'and try again.'.format(pool.checkedout()))
+                raise RecordsException(err_msg)
+
         self._engine.dispose()
         self.open = False
 
@@ -280,40 +294,42 @@ class Database(object):
         # Setup SQLAlchemy for Database inspection.
         return inspect(self._engine).get_table_names()
 
-    def get_connection(self):
+    def get_connection(self, close_with_result=False):
         """Get a connection to this Database. Connections are retrieved from a
-        pool.
+        pool. By default, the retrieved connection remains open. Setting
+        close_with_result to True returns the connection to the pool once a
+        result is consumed.
         """
         if not self.open:
             raise exc.ResourceClosedError('Database closed.')
 
-        return Connection(self._engine.connect())
+        return Connection(self._engine.contextual_connect(close_with_result))
 
     def query(self, query, fetchall=False, **params):
         """Executes the given SQL query against the Database. Parameters can,
         optionally, be provided. Returns a RecordCollection, which can be
         iterated over to get result rows as dictionaries.
         """
-        with self.get_connection() as conn:
-            return conn.query(query, fetchall, **params)
+        conn = self.get_connection(True);
+        return conn.query(query, fetchall, **params)
 
     def bulk_query(self, query, *multiparams):
         """Bulk insert or update."""
 
-        with self.get_connection() as conn:
-            conn.bulk_query(query, *multiparams)
+        conn = self.get_connection(True);
+        conn.bulk_query(query, *multiparams)
 
     def query_file(self, path, fetchall=False, **params):
         """Like Database.query, but takes a filename to load a query from."""
 
-        with self.get_connection() as conn:
-            return conn.query_file(path, fetchall, **params)
+        conn = self.get_connection(True);
+        return conn.query_file(path, fetchall, **params)
 
     def bulk_query_file(self, path, *multiparams):
         """Like Database.bulk_query, but takes a filename to load a query from."""
 
-        with self.get_connection() as conn:
-            conn.bulk_query_file(path, *multiparams)
+        conn = self.get_connection(True);
+        conn.bulk_query_file(path, *multiparams)
 
     @contextmanager
     def transaction(self):
@@ -335,11 +351,9 @@ class Connection(object):
 
     def __init__(self, connection):
         self._conn = connection
-        self.open = not connection.closed
 
     def close(self):
         self._conn.close()
-        self.open = False
 
     def __enter__(self):
         return self
@@ -348,7 +362,7 @@ class Connection(object):
         self.close()
 
     def __repr__(self):
-        return '<Connection open={}>'.format(self.open)
+        return '<Connection open={}>'.format(not self._conn.closed)
 
     def query(self, query, fetchall=False, **params):
         """Executes the given SQL query against the connected Database.
@@ -418,6 +432,12 @@ class Connection(object):
         on the returned object as appropriate."""
 
         return self._conn.begin()
+
+
+class RecordsException(Exception):
+    """A records-specific exception."""
+    pass
+
 
 def _reduce_datetimes(row):
     """Receives a row, converts datetimes to strings."""

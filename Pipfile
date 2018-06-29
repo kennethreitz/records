@@ -6,4 +6,4 @@ verify_ssl = true
 pytest = "*"
 
 [packages]
-"e1839a8" = {path = ".", extras = ["pg"], editable = true}
+records = {path = ".", extras = ["pg"], editable = true}

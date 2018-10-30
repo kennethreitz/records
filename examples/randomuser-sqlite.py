@@ -21,13 +21,13 @@ db.query('DROP TABLE IF EXISTS persons')
 db.query('CREATE TABLE persons (key int PRIMARY KEY, fname text, lname text, email text)')
 
 for rec in j:
-    user = rec['user']
-    name = user['name']
+    user = rec.get('user')
+    name = user.get('name')
 
-    key = user['registered']
-    fname = name['first']
-    lname = name['last']
-    email = user['email']
+    key = user.get('registered')
+    fname = name.get('first')
+    lname = name.get('last')
+    email = user.get('email')
     db.query('INSERT INTO persons (key, fname, lname, email) VALUES(:key, :fname, :lname, :email)',
             key=key, fname=fname, lname=lname, email=email)
 

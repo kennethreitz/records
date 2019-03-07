@@ -85,7 +85,7 @@ Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 - Safe parameterization: ``Database.query('life=:everything', everything=42)``.
 - Queries can be passed as strings or filenames, parameters supported.
 - Transactions: ``t = Database.transaction(); t.commit()``.
-- Bulk actions: ``Database.bulk_query()`` & ``Databse.bulk_query_file()``.
+- Bulk actions: ``Database.bulk_query()`` & ``Database.bulk_query_file()``.
 
 Records is proudly powered by `SQLAlchemy <http://www.sqlalchemy.org>`_
 and `Tablib <http://docs.python-tablib.org/en/latest/>`_.

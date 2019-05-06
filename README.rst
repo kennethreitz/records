@@ -27,8 +27,6 @@ while providing an elegant interface to work with your query results.
 
 ----------
 
-If you're interested in financially supporting Kenneth Reitz open source, consider `visiting this link <https://cash.me/$KennethReitz>`_. Your support helps tremendously with sustainability of motivation, as Open Source is no longer part of my day job.
-
 ☤ The Basics
 ------------
 We know how to write SQL, so let's send some to our database:

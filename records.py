@@ -296,8 +296,8 @@ class Database(object):
         optionally, be provided. Returns a RecordCollection, which can be
         iterated over to get result rows as dictionaries.
         """
-        with self.get_connection() as conn:
-            return conn.query(query, fetchall, **params)
+        conn = self.get_connection()
+        return conn.query(query, fetchall, **params)
 
     def bulk_query(self, query, *multiparams):
         """Bulk insert or update."""

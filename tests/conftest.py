@@ -11,7 +11,7 @@ import records
 
     ('sqlite_memory', 'sqlite:///:memory:'),
     ('sqlite_file', 'sqlite:///{dbfile}'),
-    ('psql', 'postgresql://records:records@localhost/records')
+    # ('psql', 'postgresql://records:records@localhost/records')
 ],
     ids=lambda r: r[0])
 def db(request, tmpdir):

@@ -1,1 +1,5 @@
 .env
+.pytest_cache
+records.egg-info
+.idea
+__pycache__

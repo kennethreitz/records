@@ -16,7 +16,6 @@ Varying conditions:
 """
 import pytest
 
-
 @pytest.mark.usefixtures('foo_table')
 def test_plain_db(db):
     """Manipulate database by `db.query` without transactions.
@@ -24,6 +23,7 @@ def test_plain_db(db):
     db.query('INSERT INTO foo VALUES (42)')
     db.query('INSERT INTO foo VALUES (43)')
     assert db.query('SELECT count(*) AS n FROM foo')[0].n == 2
+    assert_db_connection_count(db, 0)
 
 
 @pytest.mark.usefixtures('foo_table')
@@ -34,6 +34,23 @@ def test_plain_conn(db):
     conn.query('INSERT INTO foo VALUES (42)')
     conn.query('INSERT INTO foo VALUES (43)')
     assert conn.query('SELECT count(*) AS n FROM foo')[0].n == 2
+    assert_db_connection_count(db, 1)
+
+    # Explictly close the connection.
+    conn.close()
+    assert_db_connection_count(db, 0)
+
+
+@pytest.mark.usefixtures('foo_table')
+def test_plain_conn_context_manager(db):
+    """Manipulate database by `conn.query` without transactions.
+    """
+    with db.get_connection() as conn:
+        conn.query('INSERT INTO foo VALUES (42)')
+        conn.query('INSERT INTO foo VALUES (43)')
+        assert conn.query('SELECT count(*) AS n FROM foo')[0].n == 2
+
+    assert_db_connection_count(db, 0)
 
 
 @pytest.mark.usefixtures('foo_table')
@@ -52,6 +69,8 @@ def test_failing_transaction_self_managed(db):
         conn.close()
         assert db.query('SELECT count(*) AS n FROM foo')[0].n == 0
 
+    assert_db_connection_count(db, 0)
+
 
 @pytest.mark.usefixtures('foo_table')
 def test_failing_transaction(db):
@@ -61,6 +80,7 @@ def test_failing_transaction(db):
         raise ValueError()
 
     assert db.query('SELECT count(*) AS n FROM foo')[0].n == 0
+    assert_db_connection_count(db, 0)
 
 
 @pytest.mark.usefixtures('foo_table')
@@ -72,6 +92,7 @@ def test_passing_transaction_self_managed(db):
     tx.commit()
     conn.close()
     assert db.query('SELECT count(*) AS n FROM foo')[0].n == 2
+    assert_db_connection_count(db, 0)
 
 
 @pytest.mark.usefixtures('foo_table')
@@ -81,3 +102,9 @@ def test_passing_transaction(db):
         conn.query('INSERT INTO foo VALUES (43)')
 
     assert db.query('SELECT count(*) AS n FROM foo')[0].n == 2
+    assert_db_connection_count(db, 0)
+
+
+def assert_db_connection_count(db, expected_count):
+    if db.dialect != 'sqlite':
+        assert db.checkedout == expected_count

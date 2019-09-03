@@ -1,0 +1,13 @@
+HISTORY.rst
+LICENSE
+MANIFEST.in
+README.rst
+records.py
+setup.py
+records.egg-info/PKG-INFO
+records.egg-info/SOURCES.txt
+records.egg-info/dependency_links.txt
+records.egg-info/entry_points.txt
+records.egg-info/not-zip-safe
+records.egg-info/requires.txt
+records.egg-info/top_level.txt

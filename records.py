@@ -261,6 +261,17 @@ class Database(object):
         self._engine = create_engine(self.db_url, **kwargs)
         self.open = True
 
+    @property
+    def dialect(self):
+        return self._engine.dialect.name
+
+    @property
+    def checkedout(self):
+        pool = self._engine.pool
+        if isinstance(pool, QueuePool):
+            return pool.checkedout()
+        return 0
+
     def close(self, force=False):
         """Closes the Database.
 
@@ -294,7 +305,7 @@ class Database(object):
         # Setup SQLAlchemy for Database inspection.
         return inspect(self._engine).get_table_names()
 
-    def get_connection(self, close_with_result=False):
+    def get_connection(self):
         """Get a connection to this Database. Connections are retrieved from a
         pool. By default, the retrieved connection remains open. Setting
         close_with_result to True returns the connection to the pool once a
@@ -303,7 +314,6 @@ class Database(object):
         if not self.open:
             raise exc.ResourceClosedError('Database closed.')
 
-        # return Connection(self._engine.contextual_connect(close_with_result))
         return Connection(self._engine.connect())
 
     def query(self, query, fetchall=False, **params):
@@ -311,25 +321,25 @@ class Database(object):
         optionally, be provided. Returns a RecordCollection, which can be
         iterated over to get result rows as dictionaries.
         """
-        conn = self.get_connection(True)
+        conn = self.get_connection()
         return conn.query(query, fetchall, **params)
 
     def bulk_query(self, query, *multiparams):
         """Bulk insert or update."""
 
-        conn = self.get_connection(True)
+        conn = self.get_connection()
         conn.bulk_query(query, *multiparams)
 
     def query_file(self, path, fetchall=False, **params):
         """Like Database.query, but takes a filename to load a query from."""
 
-        conn = self.get_connection(True)
+        conn = self.get_connection()
         return conn.query_file(path, fetchall, **params)
 
     def bulk_query_file(self, path, *multiparams):
         """Like Database.bulk_query, but takes a filename to load a query from."""
 
-        conn = self.get_connection(True)
+        conn = self.get_connection()
         conn.bulk_query_file(path, *multiparams)
 
     @contextmanager

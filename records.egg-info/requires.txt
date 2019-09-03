@@ -1,0 +1,19 @@
+openpyxl<2.5.0
+tablib>=0.11.4
+docopt
+
+[:python_version < "3.0"]
+SQLAlchemy<1.1
+
+[:python_version >= "3.0"]
+SQLAlchemy
+
+[pandas]
+tablib[pandas]
+
+[pg]
+psycopg2
+
+[redshift]
+sqlalchemy-redshift
+psycopg2

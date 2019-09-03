@@ -307,9 +307,8 @@ class Database(object):
 
     def get_connection(self):
         """Get a connection to this Database. Connections are retrieved from a
-        pool. By default, the retrieved connection remains open. Setting
-        close_with_result to True returns the connection to the pool once a
-        result is consumed.
+        pool. The retrieved connection remains open until its result is
+        consumed.
         """
         if not self.open:
             raise exc.ResourceClosedError('Database closed.')

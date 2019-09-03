@@ -303,32 +303,33 @@ class Database(object):
         if not self.open:
             raise exc.ResourceClosedError('Database closed.')
 
-        return Connection(self._engine.contextual_connect(close_with_result))
+        # return Connection(self._engine.contextual_connect(close_with_result))
+        return Connection(self._engine.connect())
 
     def query(self, query, fetchall=False, **params):
         """Executes the given SQL query against the Database. Parameters can,
         optionally, be provided. Returns a RecordCollection, which can be
         iterated over to get result rows as dictionaries.
         """
-        conn = self.get_connection(True);
+        conn = self.get_connection(True)
         return conn.query(query, fetchall, **params)
 
     def bulk_query(self, query, *multiparams):
         """Bulk insert or update."""
 
-        conn = self.get_connection(True);
+        conn = self.get_connection(True)
         conn.bulk_query(query, *multiparams)
 
     def query_file(self, path, fetchall=False, **params):
         """Like Database.query, but takes a filename to load a query from."""
 
-        conn = self.get_connection(True);
+        conn = self.get_connection(True)
         return conn.query_file(path, fetchall, **params)
 
     def bulk_query_file(self, path, *multiparams):
         """Like Database.bulk_query, but takes a filename to load a query from."""
 
-        conn = self.get_connection(True);
+        conn = self.get_connection(True)
         conn.bulk_query_file(path, *multiparams)
 
     @contextmanager

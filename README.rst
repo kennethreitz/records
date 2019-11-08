@@ -86,7 +86,7 @@ Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 - Bulk actions: ``Database.bulk_query()`` & ``Database.bulk_query_file()``.
 
 Records is proudly powered by `SQLAlchemy <http://www.sqlalchemy.org>`_
-and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
+and `Tablib < https://tablib.readthedocs.io/>`_.
 
 ☤ Data Export Functionality
 ---------------------------
@@ -147,7 +147,7 @@ You get the point. All other features of Tablib are also available,
 so you can sort results, add/remove columns/rows, remove duplicates,
 transpose the table, add separators, slice data by column, and more.
 
-See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_
+See the `Tablib Documentation < https://tablib.readthedocs.io/>`_
 for more details.
 
 ☤ Installation

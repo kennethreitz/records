@@ -15,12 +15,10 @@ def isexception(obj):
     """Given an object, return a boolean indicating whether it is an instance
     or subclass of :py:class:`Exception`.
     """
-    if isinstance(obj, Exception):
-        return True
-    if isclass(obj) and issubclass(obj, Exception):
+    if isinstance(obj, Exception) or \
+            (isclass(obj) and issubclass(obj, Exception)):
         return True
     return False
-
 
 class Record(object):
     """A row, from a query, from a database."""

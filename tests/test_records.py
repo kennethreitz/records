@@ -145,3 +145,14 @@ class TestRecord:
         record = records.Record(keys, values)
         with raises(KeyError):
             record['email']
+
+    def test_record_len(self):
+        keys, values = ['id', 'name'], [1, '']
+        record = records.Record(keys, values)
+        assert len(record) == 2
+
+    def test_record_contains(self):
+        keys, values = ['id', 'name'], [1, '']
+        record = records.Record(keys, values)
+        assert 'id' in record
+        assert 'wrongkey' not in record

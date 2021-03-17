@@ -45,7 +45,7 @@ class PublishCommand(Command):
 
         sys.exit()
 
-requires = ['SQLAlchemy;python_version>="3.0"',
+requires = ['SQLAlchemy<1.4;python_version>="3.0"',
             'SQLAlchemy<1.1;python_version<"3.0"',
             'openpyxl<2.5.0', # temporary fix to issue #142
             'tablib>=0.11.4',

@@ -360,7 +360,10 @@ class Connection(object):
         cursor = self._conn.execute(text(query), **params) # TODO: PARAMS GO HERE
 
         # Row-by-row Record generator.
-        row_gen = (Record(cursor.keys(), row) for row in cursor)
+        row_gen = iter(Record([], []))
+        
+        if cursor.returns_rows:
+            row_gen = (Record(cursor.keys(), row) for row in cursor)
 
         # Convert psycopg2 results to RecordCollection.
         results = RecordCollection(row_gen)

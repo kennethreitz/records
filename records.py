@@ -357,7 +357,7 @@ class Connection(object):
         """
 
         # Execute the given query.
-        cursor = self._conn.execute(text(query), **params) # TODO: PARAMS GO HERE
+        cursor = self._conn.execute(text(query).bindparams(**params)) # TODO: PARAMS GO HERE
 
         # Row-by-row Record generator.
         row_gen = (Record(cursor.keys(), row) for row in cursor)

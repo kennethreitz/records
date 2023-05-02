@@ -50,9 +50,12 @@ class Record(object):
             return self.values()[key]
 
         # Support for string-based lookup.
-        if key in self.keys():
-            i = self.keys().index(key)
-            if self.keys().count(key) > 1:
+        usekeys = self.keys()
+        if hasattr(usekeys, "_keys"): # sqlalchemy 2.x uses (result.RMKeyView which has wrapped _keys as list)
+            usekeys = usekeys._keys
+        if key in usekeys:
+            i = usekeys.index(key)
+            if usekeys.count(key) > 1:
                 raise KeyError("Record contains multiple '{}' fields.".format(key))
             return self.values()[i]
 

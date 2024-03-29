@@ -145,7 +145,7 @@ class RecordCollection(object):
         if is_int:
             key = slice(key, key + 1)
 
-        while len(self) < key.stop or key.stop is None:
+        while key.stop is None or len(self) < key.stop:
             try:
                 next(self)
             except StopIteration:

@@ -52,7 +52,7 @@ requires = [
     "openpyxl>2.6.0",  # https://github.com/kennethreitz-archive/records/pull/184#issuecomment-606207851
     "docopt",
 ]
-version = "0.5.3"
+version = "0.6.0"
 
 
 def read(f):
@@ -88,8 +88,6 @@ setup(
         "Natural Language :: English",
         "License :: OSI Approved :: ISC License (ISCL)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",

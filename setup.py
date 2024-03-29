@@ -45,8 +45,8 @@ class PublishCommand(Command):
 
         sys.exit()
 
-requires = ['SQLAlchemy;python_version>="3.0"',
-            'SQLAlchemy<1.1;python_version<"3.0"',
+requires = ['SQLAlchemy',
+            'openpyxl<2.5.0', # temporary fix to issue #142
             'tablib>=0.11.4',
             'openpyxl>2.6.0',  # https://github.com/kennethreitz-archive/records/pull/184#issuecomment-606207851
             'docopt']

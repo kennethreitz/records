@@ -5,9 +5,6 @@ Records: SQL for Humans™
 .. image:: https://img.shields.io/pypi/v/records.svg
     :target: https://pypi.python.org/pypi/records
 
-.. image:: https://travis-ci.org/kennethreitz/records.svg?branch=master
-    :target: https://travis-ci.org/kennethreitz/records
-
 .. image:: https://img.shields.io/badge/SayThanks.io-☼-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
 
@@ -147,8 +144,7 @@ You get the point. All other features of Tablib are also available,
 so you can sort results, add/remove columns/rows, remove duplicates,
 transpose the table, add separators, slice data by column, and more.
 
-See the `Tablib Documentation <https://tablib.readthedocs.io/en/latest/>`_
-for more details.
+See the `Tablib Documentation <https://tablib.readthedocs.io/>`_ for more details.
 
 ☤ Installation
 --------------

@@ -1,3 +1,10 @@
+v0.6.0 (04-29-2024)
+===================
+
+- Support for Python 3.6+ only.
+- Support for SQLAlchemy 2+.
+- Dropped support for Python 2.7 and 3.4, with the move to SQLAlchemy 2+.
+
 v0.5.1 (09-01-2017)
 ===================
 

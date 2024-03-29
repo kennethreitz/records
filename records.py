@@ -280,11 +280,11 @@ class Database(object):
     def __repr__(self):
         return '<Database open={}>'.format(self.open)
 
-    def get_table_names(self, internal=False):
+    def get_table_names(self, internal=False, **kwargs):
         """Returns a list of table names for the connected database."""
 
         # Setup SQLAlchemy for Database inspection.
-        return inspect(self._engine).get_table_names()
+        return inspect(self._engine).get_table_names(**kwargs)
 
     def get_connection(self, close_with_result=False):
         """Get a connection to this Database. Connections are retrieved from a

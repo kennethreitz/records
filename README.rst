@@ -5,9 +5,6 @@ Records: SQL for Humans™
 .. image:: https://img.shields.io/pypi/v/records.svg
     :target: https://pypi.python.org/pypi/records
 
-.. image:: https://travis-ci.org/kennethreitz/records.svg?branch=master
-    :target: https://travis-ci.org/kennethreitz/records
-
 .. image:: https://img.shields.io/badge/SayThanks.io-☼-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
 
@@ -25,6 +22,7 @@ while providing an elegant interface to work with your query results.
 
 *Database support includes RedShift, Postgres, MySQL, SQLite, Oracle, and MS-SQL (drivers not included).*
 
+----------
 
 ☤ The Basics
 ------------
@@ -82,10 +80,10 @@ Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 - Safe parameterization: ``Database.query('life=:everything', everything=42)``.
 - Queries can be passed as strings or filenames, parameters supported.
 - Transactions: ``t = Database.transaction(); t.commit()``.
-- Bulk actions: ``Database.bulk_query()`` & ``Databse.bulk_query_file()``.
+- Bulk actions: ``Database.bulk_query()`` & ``Database.bulk_query_file()``.
 
 Records is proudly powered by `SQLAlchemy <http://www.sqlalchemy.org>`_
-and `Tablib <http://docs.python-tablib.org/en/latest/>`_.
+and `Tablib <https://tablib.readthedocs.io/en/latest/>`_.
 
 ☤ Data Export Functionality
 ---------------------------
@@ -146,8 +144,7 @@ You get the point. All other features of Tablib are also available,
 so you can sort results, add/remove columns/rows, remove duplicates,
 transpose the table, add separators, slice data by column, and more.
 
-See the `Tablib Documentation <http://docs.python-tablib.org/en/latest/>`_
-for more details.
+See the `Tablib Documentation <https://tablib.readthedocs.io/>`_ for more details.
 
 ☤ Installation
 --------------

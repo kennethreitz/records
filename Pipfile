@@ -1,9 +1,0 @@
-[[source]]
-url = "https://pypi.python.org/simple"
-verify_ssl = true
-
-[dev-packages]
-pytest = "*"
-
-[packages]
-"e1839a8" = {path = ".", extras = ["pg"], editable = true}

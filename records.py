@@ -440,9 +440,9 @@ def _reduce_datetimes(row):
 
     row = list(row)
 
-    for i in range(len(row)):
-        if hasattr(row[i], 'isoformat'):
-            row[i] = row[i].isoformat()
+    for i, element in enumerate(row):
+        if hasattr(element, 'isoformat'):
+            row[i] = element.isoformat()
     return tuple(row)
 
 def cli():

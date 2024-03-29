@@ -47,7 +47,7 @@ class PublishCommand(Command):
 
 
 requires = [
-    "SQLAlchemy",
+    "SQLAlchemy>=2.0",
     "tablib>=0.11.4",
     "openpyxl>2.6.0",  # https://github.com/kennethreitz-archive/records/pull/184#issuecomment-606207851
     "docopt",

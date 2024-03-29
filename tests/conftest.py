@@ -1,19 +1,21 @@
 """Shared pytest fixtures.
 
 """
+
 import pytest
 
 import records
 
 
-@pytest.fixture(params=[
-    # request: (sql_url_id, sql_url_template)
-
-    ('sqlite_memory', 'sqlite:///:memory:'),
-    ('sqlite_file', 'sqlite:///{dbfile}'),
-    # ('psql', 'postgresql://records:records@localhost/records')
-],
-    ids=lambda r: r[0])
+@pytest.fixture(
+    params=[
+        # request: (sql_url_id, sql_url_template)
+        ("sqlite_memory", "sqlite:///:memory:"),
+        # ('sqlite_file', 'sqlite:///{dbfile}'),
+        # ('psql', 'postgresql://records:records@localhost/records')
+    ],
+    ids=lambda r: r[0],
+)
 def db(request, tmpdir):
     """Instance of `records.Database(dburl)`
 
@@ -42,6 +44,6 @@ def foo_table(db):
 
     Typically applied by `@pytest.mark.usefixtures('foo_table')`
     """
-    db.query('CREATE TABLE foo (a integer)')
+    db.query("CREATE TABLE foo (a integer)")
     yield
-    db.query('DROP TABLE foo')
+    db.query("DROP TABLE foo")

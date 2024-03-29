@@ -154,15 +154,6 @@ Of course, the recommended installation method is `pipenv <http://pipenv.org>`_:
     $ pipenv install records[pandas]
     ✨🍰✨
 
-☤ Command-Line Tool
--------------------
-
-As an added bonus, a ``records`` command-line tool is automatically
-included. Here's a screenshot of the usage information:
-
-.. image:: http://f.cl.ly/items/0S14231R3p0G3w3A0x2N/Screen%20Shot%202016-02-13%20at%202.43.21%20AM.png
-   :alt: Screenshot of Records Command-Line Interface.
-
 ☤ Thank You
 -----------
 

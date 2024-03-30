@@ -155,3 +155,7 @@ Thanks for checking this library out! I hope you find it useful.
 Of course, there's always room for improvement. Feel free to [open an
 issue](https://github.com/kennethreitz/records/issues) so we can make
 Records better, stronger, faster.
+
+--------------
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kennethreitz/records&type=Date)](https://star-history.com/#kennethreitz/records&Date)

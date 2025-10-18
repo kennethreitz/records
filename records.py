@@ -6,12 +6,14 @@ from sys import stdout
 from collections import OrderedDict
 from contextlib import contextmanager
 from inspect import isclass
-from typing import Any, Dict, Generator, Iterator, List, Optional, Union, Tuple
+from typing import Any, Dict, Generator, Iterator, List, Optional, Union, Tuple, TYPE_CHECKING
 
 import tablib
 from docopt import docopt
 from sqlalchemy import create_engine, exc, inspect, text
-from sqlalchemy.engine import Engine, Connection
+
+if TYPE_CHECKING:
+    from sqlalchemy.engine import Engine, Connection as SQLConnection
 
 
 def isexception(obj: Any) -> bool:
@@ -271,10 +273,10 @@ class Database(object):
             raise ValueError("You must provide a db_url.")
 
         # Create an engine.
-        self._engine: Engine = create_engine(self.db_url, **kwargs)
+        self._engine: 'Engine' = create_engine(self.db_url, **kwargs)
         self.open = True
 
-    def get_engine(self) -> Engine:
+    def get_engine(self) -> 'Engine':
         # Return the engine if open
         if not self.open:
             raise exc.ResourceClosedError("Database closed.")
@@ -390,7 +392,7 @@ class Database(object):
 class Connection(object):
     """A Database connection."""
 
-    def __init__(self, connection: Connection, close_with_result: bool = False) -> None:
+    def __init__(self, connection: 'SQLConnection', close_with_result: bool = False) -> None:
         self._conn = connection
         self.open = not connection.closed
         self._close_with_result = close_with_result

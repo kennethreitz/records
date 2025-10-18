@@ -42,14 +42,11 @@ dependencies = [
 [project.optional-dependencies]
 pandas = ["tablib[pandas]"]
 pg = ["psycopg2-binary"]
-redshift = ["sqlalchemy-redshift", "psycopg2"]
-async = ["aiosqlite", "asyncpg"]
+async = ["aiosqlite"]
 mysql = ["PyMySQL"]
-oracle = ["cx_Oracle"]
 dev = [
     "pytest>=6.0",
     "pytest-cov",
-    "pytest-asyncio",
     "black",
     "flake8",
     "mypy",
@@ -58,7 +55,6 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
-    "pytest-asyncio",
 ]
 lint = [
     "black",
@@ -70,7 +66,6 @@ all = [
     "tablib[pandas]",
     "psycopg2-binary",
     "aiosqlite",
-    "asyncpg",
     "PyMySQL",
 ]
 

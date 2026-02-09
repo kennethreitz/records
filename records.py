@@ -343,7 +343,6 @@ class Database(object):
             tx.commit()
         except:
             tx.rollback()
-            raise
         finally:
             conn.close()
 

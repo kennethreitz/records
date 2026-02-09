@@ -1,36 +1,35 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-import json
-import requests
-import records
+import json # https://docs.python.org/3/library/json.html
+import requests # https://github.com/kennethreitz/requests
+import records # https://github.com/kennethreitz/records
 
-# Fetch random user data from randomuser.me API
-response = requests.get('http://api.randomuser.me/0.6/?nat=us&results=10')
-user_data = response.json()['results']
+# randomuser.me generates random 'user' data (name, email, addr, phone number, etc)
+r = requests.get('http://api.randomuser.me/0.6/?nat=us&results=10')
+j = r.json()['results']
 
-# Database connection string
-DATABASE_URL = 'sqlite:///users.db'
+# Valid SQLite URL forms are:
+#   sqlite:///:memory: (or, sqlite://)
+#   sqlite:///relative/path/to/file.db
+#   sqlite:////absolute/path/to/file.db
 
-# Initialize the database
-db = records.Database(DATABASE_URL)
+# records will create this db on disk if 'users.db' doesn't exist already
+db = records.Database('sqlite:///users.db')
 
-# Create the 'persons' table
 db.query('DROP TABLE IF EXISTS persons')
-db.query('CREATE TABLE persons (key INTEGER PRIMARY KEY, fname TEXT, lname TEXT, email TEXT)')
+db.query('CREATE TABLE persons (key int PRIMARY KEY, fname text, lname text, email text)')
 
-# Insert user data into the 'persons' table
-for record in user_data:
-    user = record['user']
+for rec in j:
+    user = rec['user']
+    name = user['name']
+
     key = user['registered']
-    fname = user['name']['first']
-    lname = user['name']['last']
+    fname = name['first']
+    lname = name['last']
     email = user['email']
-    db.query(
-        'INSERT INTO persons (key, fname, lname, email) VALUES (:key, :fname, :lname, :email)',
-        key=key, fname=fname, lname=lname, email=email
-    )
+    db.query('INSERT INTO persons (key, fname, lname, email) VALUES(:key, :fname, :lname, :email)',
+            key=key, fname=fname, lname=lname, email=email)
 
-# Retrieve and print the contents of the 'persons' table as CSV
 rows = db.query('SELECT * FROM persons')
 print(rows.export('csv'))

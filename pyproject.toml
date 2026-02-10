@@ -1,0 +1,174 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "records"
+version = "0.6.0"
+description = "SQL for Humans"
+readme = "README.md"
+authors = [
+    {name = "Kenneth Reitz", email = "me@kennethreitz.org"}
+]
+license = "ISC"
+keywords = ["sql", "database", "query", "orm", "human-friendly"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Database",
+    "Topic :: Database :: Front-Ends",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "SQLAlchemy>=2.0",
+    "tablib>=0.11.4",
+    "openpyxl>2.6.0",
+    "docopt",
+]
+
+[project.optional-dependencies]
+pandas = ["tablib[pandas]"]
+pg = ["psycopg2-binary"]
+async = ["aiosqlite"]
+mysql = ["PyMySQL"]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+    "isort",
+]
+test = [
+    "pytest>=6.0",
+    "pytest-cov",
+]
+lint = [
+    "black",
+    "flake8",
+    "mypy>=0.910",
+    "isort",
+]
+all = [
+    "tablib[pandas]",
+    "psycopg2-binary",
+    "aiosqlite",
+    "PyMySQL",
+]
+
+[project.urls]
+Homepage = "https://github.com/kennethreitz/records"
+Documentation = "https://github.com/kennethreitz/records"
+Repository = "https://github.com/kennethreitz/records"
+"Bug Tracker" = "https://github.com/kennethreitz/records/issues"
+Changelog = "https://github.com/kennethreitz/records/blob/master/HISTORY.rst"
+
+[project.scripts]
+records = "records:cli"
+
+[tool.setuptools]
+py-modules = ["records"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["records*", "async_records*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+namespace_packages = true
+
+[[tool.mypy.overrides]]
+module = [
+    "tablib",
+    "docopt",
+    "sqlalchemy.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --tb=short"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "*_test.py",
+]
+python_classes = [
+    "Test*",
+]
+python_functions = [
+    "test_*",
+]
+
+[tool.coverage.run]
+source = ["records", "async_records"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

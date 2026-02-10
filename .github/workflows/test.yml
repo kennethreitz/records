@@ -1,0 +1,73 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master, main, dev ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -e .
+        
+    - name: Test basic import
+      run: |
+        python -c "import records; print('✓ Records import successful')"
+        
+    - name: Test basic functionality
+      run: |
+        python -c "
+        import records
+        db = records.Database('sqlite:///:memory:')
+        db.query('CREATE TABLE test (id INTEGER)')
+        db.query('INSERT INTO test VALUES (1)')
+        result = db.query('SELECT * FROM test')
+        assert len(list(result)) == 1
+        db.close()
+        print('✓ Basic functionality works')
+        "
+        
+    - name: Run enhancement tests
+      run: |
+        python test_enhancements_simple.py
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -e .
+        
+    - name: Test context managers
+      run: |
+        python test_context_manager.py
+        
+    - name: Run full integration test
+      run: |
+        python final_integration_test.py

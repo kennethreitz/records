@@ -99,8 +99,18 @@ class Record(object):
 
         return data
 
+    @property
+    def _typed_dataset(self):
+        """A Tablib Dataset containing the row with original types."""
+        data = tablib.Dataset()
+        data.headers = self.keys()
+        data.append(self.values())
+        return data
+
     def export(self, format, **kwargs):
         """Exports the row to the given format."""
+        if format == 'sql':
+            return self._typed_dataset.export(format, **kwargs)
         return self.dataset.export(format, **kwargs)
 
 
@@ -167,10 +177,6 @@ class RecordCollection(object):
     def __len__(self):
         return len(self._all_rows)
 
-    def export(self, format, **kwargs):
-        """Export the RecordCollection to a given format (courtesy of Tablib)."""
-        return self.dataset.export(format, **kwargs)
-
     @property
     def dataset(self):
         """A Tablib Dataset representation of the RecordCollection."""
@@ -191,6 +197,32 @@ class RecordCollection(object):
             data.append(row)
 
         return data
+
+    @property
+    def _typed_dataset(self):
+        """A Tablib Dataset representation of the RecordCollection with original types."""
+        # Create a new Tablib Dataset.
+        data = tablib.Dataset()
+
+        # If the RecordCollection is empty, just return the empty set
+        # Check number of rows by typecasting to list
+        if len(list(self)) == 0:
+            return data
+
+        # Set the column names as headers on Tablib Dataset.
+        first = self[0]
+
+        data.headers = first.keys()
+        for row in self.all():
+            data.append(row.values())
+
+        return data
+
+    def export(self, format, **kwargs):
+        """Export the RecordCollection to a given format (courtesy of Tablib)."""
+        if format == 'sql':
+            return self._typed_dataset.export(format, **kwargs)
+        return self.dataset.export(format, **kwargs)
 
     def all(self, as_dict=False, as_ordereddict=False):
         """Returns a list of all rows for the RecordCollection. If they haven't

@@ -133,6 +133,13 @@ with open('report.xls', 'wb') as f:
 0    model-t    True Henry Ford model-t@gmail.com 2016-02-06 22:28:23.894202
 ```
 
+**SQL**
+
+``` python
+>>> rows.export('sql')
+INSERT INTO active_users (username,active,name,user_email,timezone) VALUES ('model-t', TRUE, 'Henry Ford', 'model-t@gmail.com', TIMESTAMP '2016-02-06 22:28:23.894202');
+```
+
 You get the point. All other features of Tablib are also available, so
 you can sort results, add/remove columns/rows, remove duplicates,
 transpose the table, add separators, slice data by column, and more.

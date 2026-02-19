@@ -5,9 +5,14 @@ import json
 import requests
 import records
 
-# Fetch random user data from randomuser.me API
-response = requests.get('http://api.randomuser.me/0.6/?nat=us&results=10')
-user_data = response.json()['results']
+# Fetch random user data from randomuser.me API or load if not available
+try:
+    response = requests.get('http://api.randomuser.me/0.6/?nat=us&results=10')
+except response.status_code != 200:
+    with open('saved_response.json') as saved_response:
+        user_data  = saved_response.read()
+else:
+    user_data = response.json()['results']
 
 # Database connection string
 DATABASE_URL = 'sqlite:///users.db'

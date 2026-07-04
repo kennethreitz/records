@@ -74,7 +74,7 @@ Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 - Command-line `records` tool for exporting queries.
 - Safe parameterization: ``Database.query('life=:everything', everything=42)``.
 - Queries can be passed as strings or filenames, parameters supported.
-- Transactions: ``t = Database.transaction(); t.commit()``.
+- Transactions: ``with Database.transaction() as conn: ...``.
 - Bulk actions: ``Database.bulk_query()`` & ``Database.bulk_query_file()``.
 
 Records is proudly powered by `SQLAlchemy <http://www.sqlalchemy.org>`_

@@ -341,7 +341,7 @@ class Database(object):
         try:
             yield conn
             tx.commit()
-        except:
+        except Exception:
             tx.rollback()
         finally:
             conn.close()

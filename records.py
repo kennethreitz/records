@@ -312,7 +312,7 @@ class Database(object):
         iterated over to get result rows as dictionaries.
         """
         with self.get_connection(True) as conn:
-            return conn.query(query, fetchall, **params)
+            return conn.query(query, True, **params)
 
     def bulk_query(self, query, *multiparams):
         """Bulk insert or update."""
@@ -324,7 +324,7 @@ class Database(object):
         """Like Database.query, but takes a filename to load a query from."""
 
         with self.get_connection(True) as conn:
-            return conn.query_file(path, fetchall, **params)
+            return conn.query_file(path, True, **params)
 
     def bulk_query_file(self, path, *multiparams):
         """Like Database.bulk_query, but takes a filename to load a query from."""
@@ -343,7 +343,9 @@ class Database(object):
             tx.commit()
         except:
             tx.rollback()
+            raise
         finally:
+            conn._in_transaction = False
             conn.close()
 
 
@@ -354,12 +356,10 @@ class Connection(object):
         self._conn = connection
         self.open = not connection.closed
         self._close_with_result = close_with_result
+        self._in_transaction = False
 
     def close(self):
-        # No need to close if this connection is used for a single result.
-        # The connection will close when the results are all consumed or GCed.
-        if not self._close_with_result:
-            self._conn.close()
+        self._conn.close()
         self.open = False
 
     def __enter__(self):
@@ -395,12 +395,18 @@ class Connection(object):
         if fetchall:
             results.all()
 
+        if not self._in_transaction:
+            self._conn.commit()
+
         return results
 
     def bulk_query(self, query, *multiparams):
         """Bulk insert or update."""
 
-        self._conn.execute(text(query), *multiparams)
+        self._conn.execute(text(query), list(multiparams))
+
+        if not self._in_transaction:
+            self._conn.commit()
 
     def query_file(self, path, fetchall=False, **params):
         """Like Connection.query, but takes a filename to load a query from."""
@@ -437,12 +443,14 @@ class Connection(object):
         with open(path) as f:
             query = f.read()
 
-        self._conn.execute(text(query), *multiparams)
+        # Defer processing to self.bulk_query method.
+        self.bulk_query(query, *multiparams)
 
     def transaction(self):
         """Returns a transaction object. Call ``commit`` or ``rollback``
         on the returned object as appropriate."""
 
+        self._in_transaction = True
         return self._conn.begin()
 
 

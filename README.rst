@@ -80,6 +80,23 @@ Other options include ``rows.as_dict()`` and ``rows.as_dict(ordered=True)``.
 Records is proudly powered by `SQLAlchemy <http://www.sqlalchemy.org>`_
 and `Tablib <https://tablib.readthedocs.io/en/latest/>`_.
 
+☤ SQLAlchemy Compatibility
+--------------------------
+
+Records requires SQLAlchemy 1.4 (with ``future=True``-style connections) or
+2.x. Pre-1.4, autocommit-style SQLAlchemy engines are not supported.
+
+``Database.query()`` and ``Database.query_file()`` always fully fetch their
+results before returning, regardless of the ``fetchall`` argument, so that
+the underlying connection is returned to the pool right away. If you need to
+stream a very large result set lazily, use ``conn = db.get_connection()`` and
+call ``conn.query(..., fetchall=False)`` directly, closing ``conn`` yourself
+when you're done.
+
+``Database.transaction()`` re-raises exceptions after rolling back, rather
+than swallowing them. Wrap ``with db.transaction():`` in a ``try``/``except``
+if you need to handle a failed transaction.
+
 ☤ Data Export Functionality
 ---------------------------
 

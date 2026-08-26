@@ -37,6 +37,39 @@ def db(request, tmpdir):
 
 
 @pytest.fixture
+def sqlite_file_db(tmpdir):
+    """Factory for file-backed `records.Database` instances that all point at
+    the same temporary sqlite file.
+
+    Unlike the `db` fixture (currently sqlite_memory only, see PLAN.md item
+    1), this lets a test open a database, write, close it, and reopen a
+    *new* `Database` pointed at the same file to assert data survived. Not
+    yet folded into `db`'s parametrization: several existing tests rely on
+    `db.query()`/`db.transaction()` write paths that don't reliably persist
+    across separate connections/closes on a real file until PLAN.md items
+    2-8 land; parametrizing the shared `db` fixture before then would break
+    them.
+
+    Returns a callable; each call opens (and registers for teardown) a new
+    `Database` against the same file.
+    """
+    dbfile = str(tmpdir / "db.sqlite")
+    url = "sqlite:///{}".format(dbfile)
+    opened = []
+
+    def open_db():
+        database = records.Database(url)
+        opened.append(database)
+        return database
+
+    yield open_db
+
+    for database in opened:
+        if database.open:
+            database.close()
+
+
+@pytest.fixture
 def foo_table(db):
     """Database with table `foo` created
 

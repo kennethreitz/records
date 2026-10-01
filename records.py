@@ -149,14 +149,29 @@ class RecordCollection(object):
         is_int = isinstance(key, int)
 
         # Convert RecordCollection[1] into slice.
+        # -1 + 1 is 0, and [-1:0] is empty, so the last row uses an open end.
         if is_int:
-            key = slice(key, key + 1)
+            if key < 0:
+                key = slice(key, None if key == -1 else key + 1)
+            else:
+                key = slice(key, key + 1)
 
-        while key.stop is None or len(self) < key.stop:
-            try:
-                next(self)
-            except StopIteration:
-                break
+        # A negative bound counts from the end, so the iterator has to be consumed.
+        needs_all = key.stop is None or (
+            isinstance(key.start, int) and key.start < 0
+        ) or (isinstance(key.stop, int) and key.stop < 0)
+        if needs_all:
+            while True:
+                try:
+                    next(self)
+                except StopIteration:
+                    break
+        else:
+            while len(self) < key.stop:
+                try:
+                    next(self)
+                except StopIteration:
+                    break
 
         rows = self._all_rows[key]
         if is_int:

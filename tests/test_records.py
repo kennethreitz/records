@@ -50,6 +50,11 @@ class TestRecordCollection:
             check_id(i, row)
         assert len(rows) == 10
 
+    def test_negative_slice_keeps_earlier_rows(self):
+        rows = records.RecordCollection(IdRecord(i) for i in range(3))
+        assert list(rows[:-1]) == [IdRecord(0), IdRecord(1)]
+        assert rows[-1] == IdRecord(2)
+
 
     # all
 

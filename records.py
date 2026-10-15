@@ -65,6 +65,9 @@ class Record(object):
         raise KeyError("Record contains no '{}' field.".format(key))
 
     def __getattr__(self, key):
+        # Copying and unpickling probe attributes before slots are restored.
+        if key in ("_keys", "_values"):
+            raise AttributeError(key)
         try:
             return self[key]
         except KeyError as e:

@@ -511,7 +511,7 @@ Notes:
 
     # Can't send an empty list if params aren't expected.
     try:
-        params = dict([i.split("=") for i in params])
+        params = dict([i.split("=", 1) for i in params])
     except ValueError:
         print("Parameters must be given in key=value format.")
         exit(64)
